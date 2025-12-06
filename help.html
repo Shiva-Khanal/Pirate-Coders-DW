@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <title>HelpNest • Tutoring Requests</title>
+
+  <style>
+    :root {
+      --primary: #00A651;
+      --accent: #FF6B00;
+      --light: #F8F9FA;
+      --dark: #1A1A1A;
+    }
+    body { background: #f5f5f5; font-family: 'Inter', sans-serif; }
+
+    .task-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      cursor: pointer;
+    }
+    .task-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,166,81,0.2);
+    }
+    .btn-primary { 
+      background: var(--primary);
+      border-radius: 12px; 
+      font-weight: 600; 
+      box-shadow: 0 6px 16px rgba(0,166,81,0.3);
+    }
+    .btn-primary:hover { background: #009445; transform: translateY(-2px); }
+    .btn-accent {
+      background: var(--accent); color: white; border-radius: 12px; font-weight: 600;
+    }
+    .btn-accent:hover { background: #009445; }
+    .modal-box { border-radius: 1rem; }
+    .floating-btn {
+      position: fixed; bottom: 24px; right: 24px; z-index: 50;
+      width: 60px; height: 60px; border-radius: 50%;
+      font-size: 2rem; display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+      background: var(--primary); color:white; cursor:pointer;
+      transition: all 0.3s;
+    }
+    .floating-btn:hover { transform: translateY(-3px); background: #009445; }
+  </style>
+</head>
+<body class="min-h-screen pb-20">
+  <!-- Sidebar -->
+<div
+  id="sidebar"
+  class="fixed top-0 left-0 h-full w-64 bg-base-100 border-r transform -translate-x-full transition-transform duration-300 z-50 shadow-lg"
+>
+  <!-- Close Button -->
+  <div class="flex justify-end p-2">
+    <button id="closeSidebar" class="btn btn-ghost btn-sm">✕</button>
+  </div>
+
+  <div class="p-4 text-xl font-bold border-b">Menu</div>
+  <ul class="menu p-4 space-y-2">
+    <li><a href="home.html" class="rounded">Homepage</a></li>
+    <li><a href="portfolio.html" class="rounded">Portfolio</a></li>
+    <li><a href="about.html" class="rounded">About</a></li>
+    <li><a href="contact.html" class="rounded">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Page Wrapper for Push Effect -->
+<div id="pageWrapper" class="transition-all duration-300">
+  <!-- Navbar -->
+  <div class="navbar bg-base-100 shadow-sm sticky top-0 z-30 px-4">
+    <div class="navbar-start">
+      <!-- Hamburger -->
+      <button id="toggleSidebar" class="btn btn-ghost btn-circle">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h7"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div class="navbar-center">
+      <a class="btn btn-ghost text-xl normal-case">HelpNest</a>
+    </div>
+
+    <div class="navbar-end space-x-2">
+      <button class="btn btn-ghost btn-circle">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </button>
+
+      <button class="btn btn-ghost btn-circle">
+        <div class="indicator">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+          <span class="badge badge-xs badge-primary indicator-item"></span>
+        </div>
+      </button>
+
+      <!-- Profile link -->
+      <a href="profile.html" class="btn btn-ghost btn-circle avatar">
+        <div class="w-8 rounded-full">
+          <img src="https://i.pravatar.cc/150?img=12" alt="Profile" />
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- PAGE WRAPPER -->
+<div id="pageWrapper" class="transition-all duration-300">
+
+ 
+
+  <!-- Cards Container -->
+  <div class="max-w-6xl mx-auto px-4 mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="cards-container"></div>
+
+</div>
+
+<!-- Accept Request Modal -->
+<input type="checkbox" id="accept-modal" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box max-w-md">
+    <h3 class="font-bold text-xl mb-4">Accept Tutoring Request</h3>
+    <form id="accept-form" class="space-y-3">
+      <input type="hidden" id="accept-id" />
+      <input type="text" id="tutor-name" placeholder="Your Name" class="input input-bordered w-full" required />
+      <input type="text" id="tutor-contact" placeholder="Contact" class="input input-bordered w-full" required />
+      <input type="number" id="tutor-rate" placeholder="Rate per hour (optional)" class="input input-bordered w-full" />
+      <div class="modal-action">
+        <label for="accept-modal" class="btn w-full">Cancel</label>
+        <button type="submit" class="btn btn-accent w-full">Accept Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Post Tutoring Request Modal -->
+<input type="checkbox" id="post-modal" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box max-w-md">
+    <h3 class="font-bold text-xl mb-4">Post New Tutoring Request</h3>
+    <form id="post-form" class="space-y-3">
+      <input type="text" id="post-subject" placeholder="Subject / Topic" class="input input-bordered w-full" required />
+      <textarea id="post-desc" placeholder="Describe what you need help with..." class="textarea textarea-bordered w-full h-24" required></textarea>
+      <input type="text" id="post-address" placeholder="Address / Location" class="input input-bordered w-full" required />
+      <input type="date" id="post-date" class="input input-bordered w-full" required />
+      <input type="time" id="post-time" class="input input-bordered w-full" required /> <!-- NEW TIME FIELD -->
+      <div class="flex gap-2">
+        <button type="button" class="btn btn-outline btn-sm flex-1" onclick="selectPayment('cash')">Cash</button>
+        <button type="button" class="btn btn-outline btn-sm flex-1" onclick="selectPayment('esewa')">eSewa</button>
+        <button type="button" class="btn btn-outline btn-sm flex-1" onclick="selectPayment('khalti')">Khalti</button>
+      </div>
+      <input type="number" id="post-rate" placeholder="Rate (optional)" class="input input-bordered w-full" />
+      <div class="modal-action">
+        <label for="post-modal" class="btn w-full">Cancel</label>
+        <button type="submit" class="btn btn-primary w-full">Post Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Floating + Button -->
+<div class="floating-btn" onclick="document.getElementById('post-modal').checked=true">+</div>
+
+<script>
+  const sidebar = document.getElementById("sidebar");
+  const pageWrapper = document.getElementById("pageWrapper");
+  const toggleBtn = document.getElementById("toggleSidebar");
+  const closeBtn = document.getElementById("closeSidebar");
+
+  toggleBtn.addEventListener("click", () => { sidebar.classList.remove("-translate-x-full"); pageWrapper.classList.add("ml-64"); });
+  closeBtn.addEventListener("click", () => { sidebar.classList.add("-translate-x-full"); pageWrapper.classList.remove("ml-64"); });
+  document.addEventListener("keydown", (e) => { if(e.key === "Escape"){ sidebar.classList.add("-translate-x-full"); pageWrapper.classList.remove("ml-64"); }});
+
+  let selectedPaymentMethod = null;
+
+  const requests = [
+    {id:1, subject:"Math – Grade 10", desc:"Algebra and calculus help", address:"Baneshwor", date:"2025-12-07", time:"14:00", payment:null, tutor:null},
+    {id:2, subject:"Guitar – Beginner", desc:"Learn basic chords", address:"Lazimpat", date:"2025-12-08", time:"16:00", payment:null, tutor:null},
+    {id:3, subject:"Python Coding", desc:"Basics for projects", address:"Pulchowk", date:"2025-12-06", time:"18:00", payment:null, tutor:null},
+    {id:4, subject:"English Conversation", desc:"Improve speaking skills", address:"New Road", date:"2025-12-09", time:"10:00", payment:null, tutor:null},
+    {id:5, subject:"Physics – Grade 12", desc:"Mechanics and waves", address:"Kumaripati", date:"2025-12-10", time:"12:00", payment:null, tutor:null},
+    {id:6, subject:"Chemistry – Grade 11", desc:"Organic chemistry guidance", address:"Gwarko", date:"2025-12-08", time:"15:00", payment:null, tutor:null},
+    {id:7, subject:"Piano Lessons", desc:"Practice scales & songs", address:"Maharajgunj", date:"2025-12-11", time:"17:00", payment:null, tutor:null},
+    {id:8, subject:"History – Grade 10", desc:"World War II overview", address:"Thamel", date:"2025-12-09", time:"13:00", payment:null, tutor:null},
+  ];
+
+  function renderCards() {
+    const container = document.getElementById("cards-container");
+    const search = document.getElementById("searchInput")?.value.toLowerCase() || '';
+    container.innerHTML = requests.filter(r => r.subject.toLowerCase().includes(search) || r.desc.toLowerCase().includes(search))
+    .map(r=>{
+      return `
+        <div class="task-card p-4">
+          <h4 class="font-bold text-lg text-green-700 mb-1">${r.subject}</h4>
+          <p class="text-gray-600 mb-2">${r.desc}</p>
+          <p class="text-sm text-gray-500 mb-2">${r.address} • ${r.date} • ${r.time}</p>
+          ${r.payment ? `<div class="text-sm text-gray-700 mb-2">Payment: ${r.payment}</div>` : ''}
+          ${r.tutor ? `<div class="p-2 rounded-lg bg-green-50 text-green-700 text-sm">Accepted by ${r.tutor.name}</div>` : ''}
+          <div class="mt-3 text-right">
+            ${!r.tutor ? `<button onclick="openAcceptModal(${r.id})" class="btn btn-accent btn-sm">Accept Request</button>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function openAcceptModal(id){
+    document.getElementById("accept-id").value = id;
+    document.getElementById("accept-modal").checked = true;
+  }
+
+  document.getElementById("accept-form").onsubmit = function(e){
+    e.preventDefault();
+    const id = Number(document.getElementById("accept-id").value);
+    const name = document.getElementById("tutor-name").value.trim();
+    const contact = document.getElementById("tutor-contact").value.trim();
+    const rate = document.getElementById("tutor-rate").value || null;
+    const req = requests.find(r => r.id === id);
+    if(req){ req.tutor = {name, contact, rate}; renderCards(); }
+    document.getElementById("accept-modal").checked=false;
+    this.reset();
+  }
+
+  function selectPayment(method){
+    selectedPaymentMethod = method;
+    alert('Selected payment: ' + method);
+  }
+
+  document.getElementById("post-form").onsubmit = function(e){
+    e.preventDefault();
+    const newRequest = {
+      id: Date.now(),
+      subject: document.getElementById("post-subject").value,
+      desc: document.getElementById("post-desc").value,
+      address: document.getElementById("post-address").value,
+      date: document.getElementById("post-date").value,
+      time: document.getElementById("post-time").value,
+      payment: selectedPaymentMethod,
+      tutor: null
+    };
+    requests.unshift(newRequest);
+    renderCards();
+    selectedPaymentMethod = null;
+    document.getElementById("post-modal").checked=false;
+    this.reset();
+  }
+
+  renderCards();
+</script>
+
+</body>
+</html>
+
