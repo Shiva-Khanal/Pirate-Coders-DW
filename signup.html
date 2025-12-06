@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+  <title>Create Account</title>
+  <style>
+    :root {
+      --c1: #FEEB97;
+      --c2: #4FB783;
+      --c3: #409D9B;
+      --c4: #034561;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--c1), var(--c3));
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .card {
+      background: white;
+      border-radius: 1.25rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      animation: floatUp 0.6s ease;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--c3), var(--c4));
+      border: none;
+      color: white;
+      transition: 0.25s;
+      box-shadow: 0 4px 12px rgba(3, 69, 97, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(3, 69, 97, 0.6);
+      filter: brightness(1.1);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--c2), var(--c3));
+      border: none;
+      color: white;
+      transition: 0.25s;
+      box-shadow: 0 4px 12px rgba(79,183,131,0.4);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(79,183,131,0.6);
+      filter: brightness(1.05);
+    }
+
+    .input, .file-input {
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      border-color: var(--c3);
+      transition: 0.2s;
+    }
+
+    .input:focus, .file-input:focus {
+      border-color: var(--c4);
+      box-shadow: 0 4px 12px rgba(3, 69, 97, 0.4);
+    }
+
+    .steps .step-primary::after {
+      background-color: var(--c3) !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white flex items-center justify-center p-4">
+
+  <div class="w-full max-w-lg">
+    <div class="card bg-base-100 shadow-2xl p-6 rounded-2xl space-y-6">
+
+      <div class="text-center mb-2 animate-pulse">
+          <h1 class="text-3xl font-extrabold" style="color:#FB7834">HelpNest</h1>
+          <p class="text-sm" style="color:#034561">Your Community • Your Support • Your Nest</p>
+        </div>
+
+        <h2 class="text-2xl font-bold text-center" style="color:#409D9B">Create Your Account</h2>
+      <p class="text-center text-sm opacity-70">Complete the steps to join securely</p>
+
+      <!-- PROGRESS STEPS -->
+      <ul class="steps w-full">
+        <li class="step step-primary" id="step1-ind">Basic Info</li>
+        <li class="step" id="step2-ind">Verification</li>
+      </ul>
+
+      <!-- STEP 1: BASIC INFO -->
+      <div id="step1" class="space-y-4">
+        <input type="text" placeholder="Full Name" class="input input-bordered w-full" />
+        <input type="tel" placeholder="Phone Number" class="input input-bordered w-full" />
+
+        <div class="flex gap-2">
+          <input type="text" placeholder="Verification Code" class="input input-bordered w-full" />
+          <button class="btn btn-primary btn-outline">Send Code</button>
+        </div>
+
+        <input type="text" placeholder="Address" class="input input-bordered w-full" />
+        <input type="email" placeholder="Email" class="input input-bordered w-full" />
+
+        <button class="btn btn-primary w-full" onclick="goStep2()">Continue to Verification</button>
+      </div>
+
+      <!-- STEP 2: KYC VERIFICATION -->
+      <div id="step2" class="space-y-6 hidden">
+
+        <!-- Personal Details -->
+        <div class="space-y-3">
+          <h3 class="font-bold">Confirm Personal Details</h3>
+          <input type="date" class="input input-bordered w-full" placeholder="Date of Birth" />
+        </div>
+
+        <!-- Live Camera -->
+        <div class="space-y-3">
+          <h3 class="font-bold">Live Face Verification</h3>
+          <video id="camera" autoplay playsinline class="w-full rounded-lg border"></video>
+          <button onclick="capturePhoto()" class="btn btn-primary w-full">Capture Face</button>
+          <canvas id="snapshot" class="hidden"></canvas>
+        </div>
+
+        <!-- Citizenship Upload -->
+        <div class="space-y-3">
+          <h3 class="font-bold">Upload Citizenship</h3>
+
+          <label class="font-medium">Front Side</label>
+          <input type="file" accept="image/*" class="file-input file-input-bordered w-full" />
+
+          <label class="font-medium">Back Side</label>
+          <input type="file" accept="image/*" class="file-input file-input-bordered w-full" />
+
+          <label class="font-medium">Citizenship Number</label>
+          <input type="text" placeholder="Enter Citizenship Number" class="input input-bordered w-full" />
+        </div>
+
+        <button class="btn btn-success w-full">Complete Registration</button>
+        <button class="btn btn-outline w-full" onclick="goStep1()">Back</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function goStep2() {
+      document.getElementById("step1").classList.add("hidden");
+      document.getElementById("step2").classList.remove("hidden");
+
+      document.getElementById("step1-ind").classList.remove("step-primary");
+      document.getElementById("step2-ind").classList.add("step-primary");
+
+      startCamera();
+    }
+
+    function goStep1() {
+      document.getElementById("step2").classList.add("hidden");
+      document.getElementById("step1").classList.remove("hidden");
+
+      document.getElementById("step2-ind").classList.remove("step-primary");
+      document.getElementById("step1-ind").classList.add("step-primary");
+    }
+
+    function startCamera() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          document.getElementById("camera").srcObject = stream;
+        })
+        .catch(err => console.error("Camera error", err));
+    }
+
+    function capturePhoto() {
+      const video = document.getElementById("camera");
+      const canvas = document.getElementById("snapshot");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      canvas.classList.remove("hidden");
+    }
+  </script>
+
+</body>
+</html>
