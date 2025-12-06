@@ -22,25 +22,6 @@
       font-family: 'Inter', sans-serif;
     }
     
-      .carousel-arrow {
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 6px 18px rgba(3, 69, 97, 0.06);
-        background: white;
-        border: 1px solid rgba(3, 69, 97, 0.04);
-        cursor: pointer;
-      }
-
-      @media (min-width: 1024px) {
-        #pageWrapper.sidebar-open {
-          transform: translateX(18rem);
-          transition: transform 0.28s ease;
-        }
-      }
 .search-container {
   position: sticky;
   top: 76px;
@@ -130,7 +111,7 @@
   font-size: 0.95rem;
 }
 
-    .task-card {
+ .task-card {
       background: white;
       border-radius: 16px;
       overflow: hidden;
@@ -317,15 +298,11 @@
         </div>
       </header>
 
- <!-- SEARCH BAR + FILTER SECTION -->
 <div class="max-w-6xl mx-auto px-4 mt-4">
 
-  <!-- Search Bar -->
-  <!-- SEARCH BAR + FILTER DROPDOWN (Compact & Beautiful) -->
 <div class="max-w-6xl mx-auto px-4 mt-4 mb-6">
   <div class="search-container flex gap-3 items-center animate__animated animate__fadeIn">
     
-    <!-- Search Input -->
     <div class="flex-1 relative">
       <input 
         type="text" 
@@ -336,7 +313,6 @@
       />
     </div>
 
-    <!-- Filter Dropdown Button -->
     <div class="filter-dropdown">
       <button class="filter-btn" tabindex="0">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -351,7 +327,7 @@
         </div>
         <div class="dropdown-item">
           <label><input type="checkbox" class="checkbox checkbox-sm" value="delivery" onchange="filterTasks()"> Delivery / Pickup</label>
-          <label><input type="checkbox"checkbox checkbox-sm" value="shopping" onchange="filterTasks()"> Grocery Shopping</label>
+          <label><input type="checkbox" class="checkbox checkbox-sm" value="shopping" onchange="filterTasks()"> Grocery Shopping</label>
           <label><input type="checkbox" class="checkbox checkbox-sm" value="furniture" onchange="filterTasks()"> Moving Furniture</label>
           <label><input type="checkbox" class="checkbox checkbox-sm" value="cleaning" onchange="filterTasks()"> Cleaning / Help</label>
         </div>
@@ -371,30 +347,24 @@
   </div>
 </div>
 
-    <!-- TASKS LIST (Now takes 3 columns on desktop) -->
     <div class="lg:col-span-3 space-y-5">
       <h2 class="text-2xl font-bold text-gray-800 mb-4">Available Tasks Nearby</h2>
       <div id="availableTasks" class="space-y-4">
-        <!-- Tasks rendered here by JS -->
       </div>
 
       </div>
   </div>
 
-  <!-- Mobile Filter Button -->
   <button class="mobile-filter-btn btn btn-circle text-2xl lg:hidden" onclick="alert('Filter drawer coming soon on mobile')">
     
   </button>
 </div>
-  <!-- MAIN 2-COLUMN LAYOUT -->
   <div class="max-w-6xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
 
-    <!-- LEFT: AVAILABLE TASKS (Pathao Style Cards) -->
     <div class="space-y-5">
       <h2 class="text-2xl font-bold text-gray-800 mb-4">Available Tasks Nearby</h2>
 
       <div id="availableTasks" class="space-y-4">
-        <!-- Tasks loaded via JS -->
       </div>
 
       <button class="btn btn-primary w-full h-14 text-lg font-bold shadow-lg mt-6" onclick="add_task.showModal()">
@@ -402,10 +372,8 @@
       </button>
     </div>
 
-    <!-- RIGHT COLUMN: My Activity -->
     <div class="space-y-6">
 
-      <!-- Currently Doing -->
       <div class="bg-white rounded-2xl p-5 shadow-md">
         <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
           Currently Doing
@@ -416,7 +384,6 @@
         </div>
       </div>
 
-      <!-- Tasks I Posted -->
       <div class="bg-white rounded-2xl p-5 shadow-md">
         <h3 class="text-xl font-bold text-gray-800 mb-4">Tasks I Posted</h3>
         <div id="myPostedTasks" class="space-y-3">
@@ -424,7 +391,6 @@
         </div>
       </div>
 
-      <!-- History (Completed Tasks) -->
       <div class="bg-white rounded-2xl p-5 shadow-md">
         <h3 class="text-xl font-bold text-gray-800 mb-4">Completed History</h3>
         <div id="historyList" class="space-y-3">
@@ -434,7 +400,6 @@
     </div>
   </div>
 
-  <!-- TASK DETAIL MODAL (When clicking a task) -->
   <dialog id="task_modal" class="modal">
     <div class="modal-box max-w-lg rounded-2xl">
       <div class="flex justify-between items-start mb-4">
@@ -453,24 +418,23 @@
         <h4 class="font-bold mb-3">Choose Payment Method</h4>
         <div class="grid grid-cols-3 gap-3 mb-6">
           <button class="btn border-2" onclick="selectPay('esewa')">
-            <span class="text-2xl">eSewa</span><br><small>eSewa ID</small>
+            <span class=" color-white text-2xl">eSewa</span><br>
           </button>
-          <button class="btn border-2 border-orange-500 text-orange-600" onclick="selectPay('khalti')">
-            <span class="text-2xl">Khalti</span><br><small>Khalti ID</small>
+           <button class="color-white btn border-2" onclick="selectPay('cash')">
+            <span class="text-2xl">Cash</span><br>
           </button>
-          <button class="btn border-2" onclick="selectPay('cash')">
-            <span class="text-3xl">Cash</span><br><small>On Delivery</small>
+           <button class="color-white btn border-2" onclick="selectPay('bank')">
+            <span class="text-2xl">Bank</span><br>
           </button>
         </div>
 
-        <button id="acceptBtn" class="btn btn-primary btn-lg w-full" disabled>
+        <button color="white" id="acceptBtn" class="btn btn-primary " disabled>
           Select a payment method to accept
         </button>
       </div>
     </div>
   </dialog>
 
-  <!-- ADD TASK MODAL -->
   <dialog id="add_task" class="modal">
     <div class="modal-box rounded-2xl max-w-md">
       <h3 class="text-2xl font-bold mb-6 text-gray-800">Post a New Task</h3>
@@ -490,240 +454,169 @@
     </div>
   </dialog>
 
-  <script>
-  // Sidebar toggle
-      const sidebar = document.getElementById('sidebar');
-      const pageWrapper = document.getElementById('pageWrapper');
-      const mobileOverlay = document.getElementById('mobileOverlay');
-      const toggleSidebar = document.getElementById('toggleSidebar');
-      const closeSidebar = document.getElementById('closeSidebar');
+ | ```js
+const currentUserTasks = [];
+const completedHistory = [];
+``` | Only used for demo. In real app, this data comes from backend | Can remove if you keep only "currently doing" (1 task at a time) |
+| ```js
+setTimeout(() => {
+  if (myPostedTasks.length > 0) {
+    const task = myPostedTasks[0];
+    if (!task.acceptedBy) {
+      task.acceptedBy = { id: 23, name: "Suman Gurung" };
+      renderMyPostedTasks();
+    }
+  }
+}, 10000);
+``` | Fake auto-accept after 10 seconds — only for demo | Yes, Remove in production |
+| Entire `renderHistory()` + `completedHistory` array | Only used in old version, not connected to new UI | Remove unless you want full history |
+| `renderMyPostedTasks()` function + `myPostedTasks` array | Only used for the fake "someone accepted my task" demo | Remove unless you really show posted tasks |
+| `task.acceptedBy` logic in `submitNewTask()` | Fake field not used elsewhere | Remove |
 
-      toggleSidebar.addEventListener('click', () => {
-        sidebar.classList.remove('-translate-x-full');
-        pageWrapper.classList.add('sidebar-open');
-        mobileOverlay.classList.remove('hidden');
-      });
+### What You Should Keep (Essential)
 
-      closeSidebar.addEventListener('click', () => {
-        sidebar.classList.add('-translate-x-full');
-        pageWrapper.classList.remove('sidebar-open');
-        mobileOverlay.classList.add('hidden');
-      });
+These are actually needed for core functionality:
 
-      mobileOverlay.addEventListener('click', () => {
-        sidebar.classList.add('-translate-x-full');
-        pageWrapper.classList.remove('sidebar-open');
-        mobileOverlay.classList.add('hidden');
-      });
+- Sidebar open/close logic (but can be shorter)
+- `tasks` array (mock data – fine for now)
+- `renderAvailableTasks()`
+- `openTaskModal()`, `selectPay()`, accept task flow
+- `submitNewTask()`
+- Current task display + "Currently Doing"
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          sidebar.classList.add('-translate-x-full');
-          pageWrapper.classList.remove('sidebar-open');
-          mobileOverlay.classList.add('hidden');
-        }
-      });
+### Recommended Clean & Minimal Script (Remove ~60% of code)
 
-  // Optional: close on ESC key
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      sidebar.classList.add("-translate-x-full");
-      pageWrapper.classList.remove("ml-64");
+Replace your entire `<script>` with this clean version:
+
+```html
+<script>
+  // Simple sidebar toggle
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('mobileOverlay');
+
+  document.getElementById('toggleSidebar').onclick = () => {
+    sidebar.classList.remove('-translate-x-full');
+    overlay.classList.remove('hidden');
+  };
+
+  [document.getElementById('closeSidebar'), overlay].forEach(el => {
+    el.onclick = () => {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+    };
+  });
+
+  // Close with Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
     }
   });
-    let selectedPayment = null;
-    let selectedTaskId = null;
 
-    const tasks = [
-      { id: 1, title: "Pick up package from courier", desc: "Collect my DHL parcel from New Road office and deliver to Koteshwor", location: "New Road → Koteshwor", date: "2025-12-07", time: "14:00", price: 600, poster: "Ramesh Karki", avatar: "https://i.pravatar.cc/60?img=32" },
-      { id: 2, title: "Help carry furniture upstairs", desc: "Need 1-2 people to help move a bed and cupboard to 3rd floor", location: "Lazimpat", date: "2025-12-08", time: "10:00", price: 1800, poster: "Priya Sharma", avatar: "https://i.pravatar.cc/60?img=19" },
-      { id: 3, title: "Buy groceries & medicines", desc: "Need bread, milk, rice, and 2 medicines from pharmacy", location: "Pulchowk", date: "2025-12-06", time: "18:00", price: 400, poster: "Arjun Thapa", avatar: "https://i.pravatar.cc/60?img=47" }
-    ];
+  // Mock tasks
+  let tasks = [
+    { id: 1, title: "Pick up package from courier", desc: "Collect my DHL parcel from New Road office and deliver to Koteshwor", location: "New Road → Koteshwor", date: "2025-12-07", time: "14:00", price: 600, poster: "Ramesh Karki", avatar: "https://i.pravatar.cc/60?img=32" },
+    { id: 2, title: "Help carry furniture upstairs", desc: "Need 1-2 people to help move a bed and cupboard to 3rd floor", location: "Lazimpat", date: "2025-12-08", time: "10:00", price: 1800, poster: "Priya Sharma", avatar: "https://i.pravatar.cc/60?img=19" },
+    { id: 3, title: "Buy groceries & medicines", desc: "Need bread, milk, rice, and 2 medicines from pharmacy", location: "Pulchowk", date: "2025-12-06", time: "18:00", price: 400, poster: "Arjun Thapa", avatar: "https://i.pravatar.cc/60?img=47" }
+  ];
 
-    const currentUserTasks = []; // Tasks user accepted
-    const myPostedTasks = [];    // Tasks user created
-    const completedHistory = [];
+  let currentTask = null; // Only one active task at a time
 
-    function renderAvailableTasks() {
-      const container = document.getElementById('availableTasks');
-      container.innerHTML = '';
-      tasks.forEach(task => {
-        const card = document.createElement('div');
-        card.className = 'task-card animate__animated animate__fadeInUp cursor-pointer';
-        card.onclick = () => openTaskModal(task.id);
-
-        card.innerHTML = `
-          <div class="p-4">
-            <div class="flex items-center gap-3 mb-3">
-              <img src="${task.avatar}" class="w-12 h-12 rounded-full ring-2 ring-green-200" />
-              <div>
-                <h4 class="font-bold">${task.poster}</h4>
-                <p class="text-xs text-gray-500">Posted 2h ago • 4.8 ★</p>
-              </div>
-            </div>
-            <h3 class="font-bold text-lg mb-1">${task.title}</h3>
-            <p class="text-sm text-gray-600 mb-3">${task.desc}</p>
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-500">${task.location} • ${task.date}</span>
-              <span class="text-2xl font-bold text-green-600">Rs. ${task.price}</span>
-            </div>
+  function renderTasks() {
+    const container = document.getElementById('availableTasks');
+    container.innerHTML = tasks.map(task => `
+      <div class="task-card bg-white rounded-2xl shadow hover:shadow-xl cursor-pointer transition p-5" onclick="openTaskModal(${task.id})">
+        <div class="flex items-center gap-4 mb-4">
+          <img src="${task.avatar}" class="w-14 h-14 rounded-full ring-2 ring-green-100">
+          <div>
+            <div class="font-bold">${task.poster}</div>
+            <div class="text-xs text-gray-500">2h ago • 4.8 ★</div>
           </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function openTaskModal(id) {
-      const task = tasks.find(t => t.id === id);
-      selectedTaskId = id;
-
-      document.getElementById('modal_title').innerText = task.title;
-      document.getElementById('modal_desc').innerText = task.desc;
-      document.getElementById('modal_location').innerText = task.location;
-      document.getElementById('modal_time').innerText = `${task.date} at ${task.time}`;
-      document.getElementById('modal_price').innerText = `Rs. ${task.price}`;
-
-      selectedPayment = null;
-      document.querySelectorAll('#task_modal .btn').forEach(b => b.classList.remove('btn-success'));
-      document.getElementById('acceptBtn').disabled = true;
-      document.getElementById('acceptBtn').innerText = 'Select a payment method to accept';
-
-      task_modal.showModal();
-    }
-
-    function selectPay(method) {
-      selectedPayment = method;
-      document.querySelectorAll('#task_modal .btn').forEach(b => b.classList.remove('btn-success'));
-      event.target.classList.add('btn-success');
-      document.getElementById('acceptBtn').disabled = false;
-      document.getElementById('acceptBtn').innerText = `Accept Task • Pay via ${method.toUpperCase()}`;
-    }
-
-    document.getElementById('acceptBtn').onclick = () => {
-      if (!selectedPayment) return alert("Please select payment method");
-
-      const task = tasks.find(t => t.id === selectedTaskId);
-      currentUserTasks.push({ ...task, payment: selectedPayment, acceptedAt: new Date() });
-
-      // Update UI
-      document.getElementById('currentTaskSection').innerHTML = `
-        <div class="bg-green-50 rounded-xl p-4 border border-green-200">
-          <div class="flex items-center gap-3 mb-3">
-            <img src="${task.avatar}" class="w-12 h-12 rounded-full" />
-            <div>
-              <h4 class="font-bold">${task.title}</h4>
-              <p class="text-sm text-gray-600">Pay via <strong>${selectedPayment.toUpperCase()}</strong></p>
-            </div>
-          </div>
-          <button class="btn btn-sm btn-outline w-full mt-3" onclick="markAsComplete(${task.id})">Mark as Completed</button>
         </div>
-      `;
+        <h3 class="font-bold text-lg mb-2">${task.title}</h3>
+        <p class="text-gray-600 text-sm mb-4">${task.desc}</p>
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-500">${task.location} • ${task.date}</span>
+          <span class="text-2xl font-bold text-primary">Rs. ${task.price}</span>
+        </div>
+      </div>
+    `).join('');
+  }
 
-      task_modal.close();
-      alert("Task accepted! Check 'Currently Doing' section.");
+  function openTaskModal(id) {
+    const task = tasks.find(t => t.id === id);
+    document.getElementById('modal_title').textContent = task.title;
+    document.getElementById('modal_desc').textContent = task.desc;
+    document.getElementById('modal_location').textContent = task.location;
+    document.getElementById('modal_time').textContent = `${task.date} at ${task.time}`;
+    document.getElementById('modal_price').textContent = `Rs. ${task.price}`;
+
+    // Reset payment buttons
+    document.querySelectorAll('#task_modal .btn').forEach(b => b.classList.remove('btn-success'));
+    document.getElementById('acceptBtn').disabled = true;
+    document.getElementById('acceptBtn').textContent = 'Select a payment method';
+
+    task_modal.showModal();
+  }
+
+  function selectPay(method) {
+    document.querySelectorAll('#task_modal .btn').forEach(b => b.classList.remove('btn-success'));
+    event.target.classList.add('btn-success');
+    document.getElementById('acceptBtn').disabled = false;
+    document.getElementById('acceptBtn').textContent = `Accept via ${method.toUpperCase()}`;
+    document.getElementById('acceptBtn').onclick = () => acceptTask(method);
+  }
+
+  function acceptTask(method) {
+    const title = document.getElementById('modal_title').textContent;
+    const price = document.getElementById('modal_price').textContent;
+    const avatar = tasks.find(t => t.title === title).avatar;
+
+    currentTask = { title, price, method };
+
+    document.getElementById('currentTaskSection').innerHTML = `
+      <div class="bg-green-50 rounded-xl p-5 border border-green-200 text-center">
+        <img src="${avatar}" class="w-16 h-16 rounded-full mx-auto mb-3">
+        <h4 class="font-bold text-lg">${title}</h4>
+        <p class="text-sm text-gray-600 mb-4">Pay via <strong>${method.toUpperCase()}</strong></p>
+        <button class="btn btn-outline btn-sm w-full" onclick="completeTask()">Mark as Completed</button>
+      </div>
+    `;
+
+    task_modal.close();
+    alert('Task accepted!');
+  }
+
+  function completeTask() {
+    alert('Task marked as completed! You earned ' + currentTask.price);
+    document.getElementById('currentTaskSection').innerHTML = '<p class="text-center text-gray-500 py-8">You have no active tasks</p>';
+    currentTask = null;
+  }
+
+  function submitNewTask(e) {
+    e.preventDefault();
+    const newTask = {
+      id: Date.now(),
+      title: document.getElementById('new_title').value,
+      desc: document.getElementById('new_desc').value,
+      location: document.getElementById('new_location').value,
+      date: document.getElementById('new_date').value,
+      time: document.getElementById('new_time').value,
+      price: document.getElementById('new_amount').value,
+      poster: "You",
+      avatar: "https://i.pravatar.cc/60?img=15"
     };
 
-    function markAsComplete(id) {
-      const task = currentUserTasks.find(t => t.id === id);
-      completedHistory.push(task);
-      currentUserTasks = currentUserTasks.filter(t => t.id !== id);
+    tasks.unshift(newTask);
+    renderTasks();
+    add_task.close();
+    e.target.reset();
+    alert("Task posted!");
+  }
 
-      document.getElementById('currentTaskSection').innerHTML = '<div class="text-center py-8 text-gray-500">You have no active tasks</div>';
-      renderHistory();
-    }
-
-    function renderHistory() {
-      const list = document.getElementById('historyList');
-      list.innerHTML = '';
-      if (completedHistory.length === 0) {
-        list.innerHTML = '<div class="text-center py-6 text-gray-500 text-sm">No completed tasks</div>';
-        return;
-      }
-      completedHistory.forEach(t => {
-        const el = document.createElement('div');
-        el.className = 'bg-gray-50 rounded-xl p-4 flex justify-between items-center';
-        el.innerHTML = `
-          <div>
-            <h4 class="font-semibold">${t.title}</h4>
-            <p class="text-xs text-gray-600">Completed • Rs. ${t.price}</p>
-          </div>
-          <span class="text-green-600 font-bold">+Rs. ${t.price}</span>
-        `;
-        list.appendChild(el);
-      });
-    }
-
-    function submitNewTask(e) {
-      e.preventDefault();
-      const newTask = {
-        id: Date.now(),
-        title: document.getElementById('new_title').value,
-        desc: document.getElementById('new_desc').value,
-        location: document.getElementById('new_location').value,
-        date: document.getElementById('new_date').value,
-        time: document.getElementById('new_time').value,
-        price: document.getElementById('new_amount').value,
-        poster: "You",
-        avatar: "https://i.pravatar.cc/60?img=15",
-        acceptedBy: null,
-        status: "pending"
-      };
-
-      myPostedTasks.push(newTask);
-      tasks.unshift(newTask); // Show on available tasks too
-      renderAvailableTasks();
-      renderMyPostedTasks();
-
-      add_task.close();
-      alert("Task posted successfully!");
-      e.target.reset();
-    }
-
-    function renderMyPostedTasks() {
-      const container = document.getElementById('myPostedTasks');
-      container.innerHTML = '';
-      if (myPostedTasks.length === 0) {
-        container.innerHTML = '<div class="text-center py-6 text-gray-500 text-sm">No tasks posted yet</div>';
-        return;
-      }
-
-      myPostedTasks.forEach(task => {
-        const card = document.createElement('div');
-        card.className = `rounded-xl p-4 ${task.acceptedBy ? 'bg-green-50 border border-green-300' : 'bg-orange-50 border border-orange-300'}`;
-
-        card.innerHTML = `
-          <h4 class="font-bold text-lg">${task.title}</h4>
-          <p class="text-sm text-gray-600 mb-3">Rs. ${task.price} • ${task.location}</p>
-          ${task.acceptedBy ? `
-            <div class="flex items-center gap-3 bg-white rounded-lg p-3">
-              <img src="https://i.pravatar.cc/50?img=${task.acceptedBy.id}" class="w-10 h-10 rounded-full" />
-              <div>
-                <p class="font-semibold">${task.acceptedBy.name}</p>
-                <p class="text-xs text-gray-500">Accepted • 4.9 ★</p>
-              </div>
-            </div>
-          ` : `
-            <div class="text-orange-600 font-medium">Waiting for someone to accept...</div>
-          `}
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // Simulate someone accepting your task after 10 seconds (demo)
-    setTimeout(() => {
-      if (myPostedTasks.length > 0) {
-        const task = myPostedTasks[0];
-        if (!task.acceptedBy) {
-          task.acceptedBy = { id: 23, name: "Suman Gurung" };
-          renderMyPostedTasks();
-        }
-      }
-    }, 10000);
-
-    // Initial render
-    renderAvailableTasks();
-    renderMyPostedTasks();
-  </script>
+  // Initial render
+  renderTasks();
+</script>
 </body>
 </html>
