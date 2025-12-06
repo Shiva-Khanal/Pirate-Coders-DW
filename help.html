@@ -52,8 +52,6 @@
   </style>
 </head>
 <body class="min-h-screen pb-20">
-
-  <!-- Sidebar & Navbar (same as before) -->
   <div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white text-black border-r transform -translate-x-full transition-transform duration-300 z-50 shadow-lg">
     <div class="flex justify-between items-center p-4 border-b">
       <h2 class="text-xl font-bold text-black">Menu</h2>
@@ -92,22 +90,14 @@
       </div>
     </div>
   </div>
-
-  <!-- Tabs -->
   <div class="flex justify-center mt-4 gap-4 px-4">
     <button onclick="switchTab('all')" class="tab-active px-6 py-3 rounded-xl font-bold">All Requests</button>
     <button onclick="switchTab('my')" class="px-6 py-3 rounded-xl font-bold bg-gray-200">My Activity</button>
   </div>
-
-  <!-- Main Content -->
   <div id="pageWrapper" class="transition-all duration-300">
-
-    <!-- All Requests View -->
     <div id="all-requests-view" class="max-w-6xl mx-auto px-4 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div id="cards-container"></div>
     </div>
-
-    <!-- My Activity View (same as before) -->
     <div id="my-activity-view" class="hidden max-w-4xl mx-auto px-6 mt-6 space-y-6">
       <div class="bg-white rounded-2xl p-6 shadow-lg">
         <h3 class="text-2xl font-bold text-gray-800 mb-5">Currently Doing</h3>
@@ -129,8 +119,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Modals (same as before) -->
   <input type="checkbox" id="accept-modal" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box max-w-md">
@@ -186,33 +174,10 @@
   closeBtn.addEventListener("click", () => { sidebar.classList.add("-translate-x-full"); pageWrapper.classList.remove("ml-64"); });
   document.addEventListener("keydown", (e) => { if(e.key === "Escape"){ sidebar.classList.add("-translate-x-full"); pageWrapper.classList.remove("ml-64"); }});
 
-  // 25+ REALISTIC REQUESTS
+ 
   let requests = JSON.parse(localStorage.getItem("helpnest_requests")) || [
     {id:1, subject:"Math – Grade 10", desc:"Need help with quadratic equations", address:"Koteshwor", date:"2025-12-08", time:"15:00", payment:"esewa", tutor:null, owner:false, completed:false},
     {id:2, subject:"Physics – Grade 12", desc:"Mechanics and electricity", address:"Pulchowk", date:"2025-12-09", time:"17:00", payment:"khalti", tutor:null, owner:false, completed:false},
-    {id:3, subject:"English Speaking", desc:"Improve fluency for IELTS", address:"New Baneshwor", date:"2025-12-10", time:"10:00", payment:"cash", tutor:null, owner:true, completed:false},
-    {id:4, subject:"Guitar Lessons", desc:"Beginner chords and songs", address:"Lazimpat", date:"2025-12-11", time:"16:30", payment:"cash", tutor:null, owner:false, completed:false},
-    {id:5, subject:"Python Programming", desc:"Web development basics", address:"Thamel", date:"2025-12-07", time:"18:00", payment:"esewa", tutor:null, owner:false, completed:false},
-    {id:6, subject:"Chemistry – Grade 11", desc:"Organic chemistry reactions", address:"Satdobato", date:"2025-12-12", time:"14:00", payment:null, tutor:null, owner:false, completed:false},
-    {id:7, subject:"Nepali Literature", desc:"Class 10 SEE preparation", address:"Kalanki", date:"2025-12-08", time:"11:00", payment:"cash", tutor:null, owner:false, completed:false},
-    {id:8, subject:"Piano Beginner", desc:"Learn scales and simple songs", address:"Boudha", date:"2025-12-13", time:"17:30", payment:"khalti", tutor:null, owner:false, completed:false},
-    {id:9, subject:"Accountancy – Grade 12", desc:"Journal entries and balance sheet", address:"Putalisadak", date:"2025-12-09", time:"13:00", payment:null, tutor:null, owner:false, completed:false},
-    {id:10, subject:"Biology – Grade 11", desc:"Human physiology and genetics", address:"Dillibazar", date:"2025-12-10", time:"16:00", payment:"esewa", tutor:null, owner:false, completed:false},
-    {id:11, subject:"JavaScript Coding", desc:"Build a to-do app", address:"Sanepa", date:"2025-12-14", time:"19:00", payment:"khalti", tutor:null, owner:false, completed:false},
-    {id:12, subject:"Economics – Grade 12", desc:"Macro and micro economics", address:"Tripureshwor", date:"2025-12-11", time:"12:00", payment:"cash", tutor:null, owner:false, completed:false},
-    {id:13, subject:"Dance (Bollywood)", desc:"Learn choreography", address:"Jhamsikhel", date:"2025-12-15", time:"17:00", payment:"cash", tutor:null, owner:false, completed:false},
-    {id:14, subject:"Computer Science – SEE", desc:"QBasic and Logic Gates", address:"Bhaktapur", date:"2025-12-08", time:"10:30", payment:null, tutor:null, owner:false, completed:false},
-    {id:15, subject:"French Language", desc:"Beginner conversation", address:"Kumaripati", date:"2025-12-12", time:"18:30", payment:"esewa", tutor:null, owner:false, completed:false},
-    {id:16, subject:"Drawing & Painting", desc:"Watercolor techniques", address:"Patan", date:"2025-12-13", time:"11:00", payment:"cash", tutor:null, owner:false, completed:false},
-    {id:17, subject:"Web Design", desc:"HTML, CSS, Tailwind", address:"Online", date:"2025-12-10", time:"20:00", payment:"khalti", tutor:null, owner:false, completed:false},
-    {id:18, subject:"Business Studies", desc:"Grade 12 NEB preparation", address:"Maitighar", date:"2025-12-09", time:"15:30", payment:null, tutor:null, owner:false, completed:false},
-    {id:19, subject:"Yoga & Meditation", desc:"Morning sessions", address:"Kupondole", date:"2025-12-16", time:"06:30", payment:"cash", tutor:null, owner:false, completed:false},
-    {id:20, subject:"Public Speaking", desc:"Confidence and delivery", address:"Babarmahal", date:"2025-12-14", time:"16:00", payment:"esewa", tutor:null, owner:false, completed:false},
-    {id:21, subject:"Photography Basics", desc:"DSLR camera handling", address:"Naxal", date:"2025-12-15", time:"14:00", payment:"cash", tutor:null, owner:false, completed:false},
-    {id:22, subject:"Social Studies – SEE", desc:"History and geography", address:"Chabahil", date:"2025-12-11", time:"13:30", payment:null, tutor:null, owner:false, completed:false},
-    {id:23, subject:"Graphic Design", desc:"Canva and Photoshop basics", address:"Online", date:"2025-12-13", time:"19:30", payment:"khalti", tutor:null, owner:false, completed:false},
-    {id:24, subject:"Vocal Music", desc:"Nepali and Hindi songs", address:"Kirtipur", date:"2025-12-12", time:"17:00", payment:"cash", tutor:null, owner:false, completed:false},
-    {id:25, subject:"Robotics for Kids", desc:"Arduino and basic circuits", address:"Banasthali", date:"2025-12-17", time:"10:00", payment:"esewa", tutor:null, owner:false, completed:false}
   ];
 
   let selectedPaymentMethod = null;
@@ -248,8 +213,6 @@
         </div>
       `).join('');
   }
-
-  // ... (rest of the functions: renderCurrentView, openAcceptModal, completeTask, etc. - same as previous version)
 
   function renderCurrentView() {
     if (currentView === 'all') {
