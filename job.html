@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <title>HelpNest • Like Pathao for Tasks</title>
+
+  <style>
+    :root {
+      --primary: #00A651;    /* Pathao Green */
+      --accent: #FF6B00;     /* Pathao Orange */
+      --dark: #1A1A1A;
+      --light: #F8F9FA;
+    }
+
+    body { 
+      background: #f5f5f5; 
+      font-family: 'Inter', sans-serif;
+    }
+    /* Search Bar */
+/* Search Bar */
+.search-container {
+  position: sticky;
+  top: 76px;
+  background: white;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  z-index: 40;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px 14px 50px;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  background: #f9f9f9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 18px center;
+  transition: all 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(0,166,81,0.15);
+}
+.filter-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-btn {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 14px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.filter-btn:hover {
+  border-color: var(--primary);
+  background: #f0fdf4;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  min-width: 280px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  padding: 1.5px;
+  z-index: 100;
+  margin-top: 8px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.filter-dropdown:hover .dropdown-content,
+.filter-dropdown:focus-within .dropdown-content {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-item:last-child { border: none; }
+
+.dropdown-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor-pointer;
+  font-size: 0.95rem;
+}
+
+    .task-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .task-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,166,81,0.2);
+    }
+
+    .status-pending { background: #FFF4E5; color: #FF6B00; }
+    .status-accepted { background: #E6F7EE; color: #00A651; }
+    .status-completed { background: #F0F0F0; color: #666; }
+
+    .btn-primary {
+      background: var(--primary);
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: 0 6px 16px rgba(0,166,81,0.3);
+    }
+    .btn-primary:hover {
+      background: #009445;
+      transform: translateY(-2px);
+    }
+
+    .animate__fadeInUp {
+      animation: fadeInUp 0.6s ease-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-20">
+
+ <!-- Sidebar -->
+<div
+  id="sidebar"
+  class="fixed top-0 left-0 h-full w-64 bg-base-100 border-r transform -translate-x-full transition-transform duration-300 z-50 shadow-lg"
+>
+  <!-- Close Button -->
+  <div class="flex justify-end p-2">
+    <button id="closeSidebar" class="btn btn-ghost btn-sm">✕</button>
+  </div>
+
+  <div class="p-4 text-xl font-bold border-b">Menu</div>
+  <ul class="menu p-4 space-y-2">
+    <li><a href="home.html" class="rounded">Homepage</a></li>
+    <li><a href="portfolio.html" class="rounded">Portfolio</a></li>
+    <li><a href="about.html" class="rounded">About</a></li>
+    <li><a href="contact.html" class="rounded">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Page Wrapper for Push Effect -->
+<div id="pageWrapper" class="transition-all duration-300">
+  <!-- Navbar -->
+  <div class="navbar bg-base-100 shadow-sm sticky top-0 z-30 px-4">
+    <div class="navbar-start">
+      <!-- Hamburger -->
+      <button id="toggleSidebar" class="btn btn-ghost btn-circle">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h7"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div class="navbar-center">
+      <a class="btn btn-ghost text-xl normal-case">HelpNest</a>
+    </div>
+
+    <div class="navbar-end space-x-2">
+      <button class="btn btn-ghost btn-circle">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </button>
+
+      <button class="btn btn-ghost btn-circle">
+        <div class="indicator">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+          <span class="badge badge-xs badge-primary indicator-item"></span>
+        </div>
+      </button>
+
+      <!-- Profile link -->
+      <a href="profile.html" class="btn btn-ghost btn-circle avatar">
+        <div class="w-8 rounded-full">
+          <img src="https://i.pravatar.cc/150?img=12" alt="Profile" />
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+ <!-- SEARCH BAR + FILTER SECTION -->
+<div class="max-w-6xl mx-auto px-4 mt-4">
+
+  <!-- Search Bar -->
+  <!-- SEARCH BAR + FILTER DROPDOWN (Compact & Beautiful) -->
+<div class="max-w-6xl mx-auto px-4 mt-4 mb-6">
+  <div class="search-container flex gap-3 items-center animate__animated animate__fadeIn">
+    
+    <!-- Search Input -->
+    <div class="flex-1 relative">
+      <input 
+        type="text" 
+        id="searchInput" 
+        class="search-input" 
+        placeholder="Search tasks... e.g. delivery, grocery, furniture"
+        onkeyup="filterTasks()"
+      />
+    </div>
+
+    <!-- Filter Dropdown Button -->
+    <div class="filter-dropdown">
+      <button class="filter-btn" tabindex="0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+        </svg>
+        Filters
+      </button>
+
+      <div class="dropdown-content">
+        <div class="dropdown-item">
+          <strong>Category</strong>
+        </div>
+        <div class="dropdown-item">
+          <label><input type="checkbox" class="checkbox checkbox-sm" value="delivery" onchange="filterTasks()"> Delivery / Pickup</label>
+          <label><input type="checkbox"checkbox checkbox-sm" value="shopping" onchange="filterTasks()"> Grocery Shopping</label>
+          <label><input type="checkbox" class="checkbox checkbox-sm" value="furniture" onchange="filterTasks()"> Moving Furniture</label>
+          <label><input type="checkbox" class="checkbox checkbox-sm" value="cleaning" onchange="filterTasks()"> Cleaning / Help</label>
+        </div>
+
+        <div class="dropdown-item">
+          <strong>Price Range</strong>
+          <input type="range" min="100" max="5000" value="5000" class="range range-success range-sm w-full mt-3" id="priceRange" 
+            oninput="document.getElementById('priceValue').innerText = 'Up to Rs. ' + this.value; filterTasks()" />
+          <p class="text-sm text-gray-600 mt-2"><span id="priceValue">Up to Rs. 5000</span></p>
+        </div>
+
+        <div class="dropdown-item">
+          <button class="btn btn-sm btn-outline w-full" onclick="clearFilters()">Clear Filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- TASKS LIST (Now takes 3 columns on desktop) -->
+    <div class="lg:col-span-3 space-y-5">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Available Tasks Nearby</h2>
+      <div id="availableTasks" class="space-y-4">
+        <!-- Tasks rendered here by JS -->
+      </div>
+
+      </div>
+  </div>
+
+  <!-- Mobile Filter Button -->
+  <button class="mobile-filter-btn btn btn-circle text-2xl lg:hidden" onclick="alert('Filter drawer coming soon on mobile')">
+    
+  </button>
+</div>
+  <!-- MAIN 2-COLUMN LAYOUT -->
+  <div class="max-w-6xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+
+    <!-- LEFT: AVAILABLE TASKS (Pathao Style Cards) -->
+    <div class="space-y-5">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Available Tasks Nearby</h2>
+
+      <div id="availableTasks" class="space-y-4">
+        <!-- Tasks loaded via JS -->
+      </div>
+
+      <button class="btn btn-primary w-full h-14 text-lg font-bold shadow-lg mt-6" onclick="add_task.showModal()">
+        + Post a New Task
+      </button>
+    </div>
+
+    <!-- RIGHT COLUMN: My Activity -->
+    <div class="space-y-6">
+
+      <!-- Currently Doing -->
+      <div class="bg-white rounded-2xl p-5 shadow-md">
+        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          Currently Doing
+        </h3>
+        <div id="currentTaskSection" class="text-center py-8 text-gray-500">
+          
+          You haven't accepted any task yet.
+        </div>
+      </div>
+
+      <!-- Tasks I Posted -->
+      <div class="bg-white rounded-2xl p-5 shadow-md">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Tasks I Posted</h3>
+        <div id="myPostedTasks" class="space-y-3">
+          <div class="text-center py-6 text-gray-500 text-sm">No tasks posted yet</div>
+        </div>
+      </div>
+
+      <!-- History (Completed Tasks) -->
+      <div class="bg-white rounded-2xl p-5 shadow-md">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Completed History</h3>
+        <div id="historyList" class="space-y-3">
+          <div class="text-center py-6 text-gray-500 text-sm">No completed tasks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASK DETAIL MODAL (When clicking a task) -->
+  <dialog id="task_modal" class="modal">
+    <div class="modal-box max-w-lg rounded-2xl">
+      <div class="flex justify-between items-start mb-4">
+        <h3 id="modal_title" class="text-2xl font-bold"></h3>
+        <form method="dialog"><button class="btn btn-circle btn-ghost">✕</button></form>
+      </div>
+
+      <div class="space-y-3">
+        <p id="modal_desc" class="text-gray-600"></p>
+        <div class="flex gap-2 text-sm"><strong>Location:</strong> <span id="modal_location">Kathmandu</span></div>
+        <div class="flex gap-2 text-sm"><strong>Date & Time:</strong> <span id="modal_time"></span></div>
+        <div class="text-2xl font-bold text-green-600" id="modal_price"></div>
+      </div>
+
+      <div class="mt-6">
+        <h4 class="font-bold mb-3">Choose Payment Method</h4>
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <button class="btn border-2" onclick="selectPay('esewa')">
+            <span class="text-2xl">eSewa</span><br><small>eSewa ID</small>
+          </button>
+          <button class="btn border-2 border-orange-500 text-orange-600" onclick="selectPay('khalti')">
+            <span class="text-2xl">Khalti</span><br><small>Khalti ID</small>
+          </button>
+          <button class="btn border-2" onclick="selectPay('cash')">
+            <span class="text-3xl">Cash</span><br><small>On Delivery</small>
+          </button>
+        </div>
+
+        <button id="acceptBtn" class="btn btn-primary btn-lg w-full" disabled>
+          Select a payment method to accept
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ADD TASK MODAL -->
+  <dialog id="add_task" class="modal">
+    <div class="modal-box rounded-2xl max-w-md">
+      <h3 class="text-2xl font-bold mb-6 text-gray-800">Post a New Task</h3>
+      <form class="space-y-4" onsubmit="submitNewTask(event)">
+        <input type="text" id="new_title" placeholder="Task Title" class="input input-bordered w-full" required />
+        <textarea id="new_desc" placeholder="Describe what you need..." class="textarea textarea-bordered w-full h-24" required></textarea>
+        <input type="text" id="new_location" placeholder="Location (e.g. Baneshwor)" class="input input-bordered w-full" required />
+        <div class="grid grid-cols-2 gap-3">
+          <input type="date" id="new_date" class="input input-bordered" required />
+          <input type="time" id="new_time" class="input input-bordered" required />
+        </div>
+        <input type="number" id="new_amount" placeholder="Reward Amount (Rs.)" class="input input-bordered w-full" required />
+
+        <button type="submit" class="btn btn-primary w-full h-12 text-lg">Post Task</button>
+        <button type="button" class="btn w-full" onclick="add_task.close()">Cancel</button>
+      </form>
+    </div>
+  </dialog>
+
+  <script>
+  const sidebar = document.getElementById("sidebar");
+  const pageWrapper = document.getElementById("pageWrapper");
+  const toggleBtn = document.getElementById("toggleSidebar");
+  const closeBtn = document.getElementById("closeSidebar");
+
+  // Open sidebar
+  toggleBtn.addEventListener("click", () => {
+    sidebar.classList.remove("-translate-x-full");
+    pageWrapper.classList.add("ml-64"); // push page slightly
+  });
+
+  // Close sidebar
+  closeBtn.addEventListener("click", () => {
+    sidebar.classList.add("-translate-x-full");
+    pageWrapper.classList.remove("ml-64");
+  });
+
+  // Optional: close on ESC key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      sidebar.classList.add("-translate-x-full");
+      pageWrapper.classList.remove("ml-64");
+    }
+  });
+    let selectedPayment = null;
+    let selectedTaskId = null;
+
+    const tasks = [
+      { id: 1, title: "Pick up package from courier", desc: "Collect my DHL parcel from New Road office and deliver to Koteshwor", location: "New Road → Koteshwor", date: "2025-12-07", time: "14:00", price: 600, poster: "Ramesh Karki", avatar: "https://i.pravatar.cc/60?img=32" },
+      { id: 2, title: "Help carry furniture upstairs", desc: "Need 1-2 people to help move a bed and cupboard to 3rd floor", location: "Lazimpat", date: "2025-12-08", time: "10:00", price: 1800, poster: "Priya Sharma", avatar: "https://i.pravatar.cc/60?img=19" },
+      { id: 3, title: "Buy groceries & medicines", desc: "Need bread, milk, rice, and 2 medicines from pharmacy", location: "Pulchowk", date: "2025-12-06", time: "18:00", price: 400, poster: "Arjun Thapa", avatar: "https://i.pravatar.cc/60?img=47" }
+    ];
+
+    const currentUserTasks = []; // Tasks user accepted
+    const myPostedTasks = [];    // Tasks user created
+    const completedHistory = [];
+
+    function renderAvailableTasks() {
+      const container = document.getElementById('availableTasks');
+      container.innerHTML = '';
+      tasks.forEach(task => {
+        const card = document.createElement('div');
+        card.className = 'task-card animate__animated animate__fadeInUp cursor-pointer';
+        card.onclick = () => openTaskModal(task.id);
+
+        card.innerHTML = `
+          <div class="p-4">
+            <div class="flex items-center gap-3 mb-3">
+              <img src="${task.avatar}" class="w-12 h-12 rounded-full ring-2 ring-green-200" />
+              <div>
+                <h4 class="font-bold">${task.poster}</h4>
+                <p class="text-xs text-gray-500">Posted 2h ago • 4.8 ★</p>
+              </div>
+            </div>
+            <h3 class="font-bold text-lg mb-1">${task.title}</h3>
+            <p class="text-sm text-gray-600 mb-3">${task.desc}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">${task.location} • ${task.date}</span>
+              <span class="text-2xl font-bold text-green-600">Rs. ${task.price}</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openTaskModal(id) {
+      const task = tasks.find(t => t.id === id);
+      selectedTaskId = id;
+
+      document.getElementById('modal_title').innerText = task.title;
+      document.getElementById('modal_desc').innerText = task.desc;
+      document.getElementById('modal_location').innerText = task.location;
+      document.getElementById('modal_time').innerText = `${task.date} at ${task.time}`;
+      document.getElementById('modal_price').innerText = `Rs. ${task.price}`;
+
+      selectedPayment = null;
+      document.querySelectorAll('#task_modal .btn').forEach(b => b.classList.remove('btn-success'));
+      document.getElementById('acceptBtn').disabled = true;
+      document.getElementById('acceptBtn').innerText = 'Select a payment method to accept';
+
+      task_modal.showModal();
+    }
+
+    function selectPay(method) {
+      selectedPayment = method;
+      document.querySelectorAll('#task_modal .btn').forEach(b => b.classList.remove('btn-success'));
+      event.target.classList.add('btn-success');
+      document.getElementById('acceptBtn').disabled = false;
+      document.getElementById('acceptBtn').innerText = `Accept Task • Pay via ${method.toUpperCase()}`;
+    }
+
+    document.getElementById('acceptBtn').onclick = () => {
+      if (!selectedPayment) return alert("Please select payment method");
+
+      const task = tasks.find(t => t.id === selectedTaskId);
+      currentUserTasks.push({ ...task, payment: selectedPayment, acceptedAt: new Date() });
+
+      // Update UI
+      document.getElementById('currentTaskSection').innerHTML = `
+        <div class="bg-green-50 rounded-xl p-4 border border-green-200">
+          <div class="flex items-center gap-3 mb-3">
+            <img src="${task.avatar}" class="w-12 h-12 rounded-full" />
+            <div>
+              <h4 class="font-bold">${task.title}</h4>
+              <p class="text-sm text-gray-600">Pay via <strong>${selectedPayment.toUpperCase()}</strong></p>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-outline w-full mt-3" onclick="markAsComplete(${task.id})">Mark as Completed</button>
+        </div>
+      `;
+
+      task_modal.close();
+      alert("Task accepted! Check 'Currently Doing' section.");
+    };
+
+    function markAsComplete(id) {
+      const task = currentUserTasks.find(t => t.id === id);
+      completedHistory.push(task);
+      currentUserTasks = currentUserTasks.filter(t => t.id !== id);
+
+      document.getElementById('currentTaskSection').innerHTML = '<div class="text-center py-8 text-gray-500">You have no active tasks</div>';
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+      if (completedHistory.length === 0) {
+        list.innerHTML = '<div class="text-center py-6 text-gray-500 text-sm">No completed tasks</div>';
+        return;
+      }
+      completedHistory.forEach(t => {
+        const el = document.createElement('div');
+        el.className = 'bg-gray-50 rounded-xl p-4 flex justify-between items-center';
+        el.innerHTML = `
+          <div>
+            <h4 class="font-semibold">${t.title}</h4>
+            <p class="text-xs text-gray-600">Completed • Rs. ${t.price}</p>
+          </div>
+          <span class="text-green-600 font-bold">+Rs. ${t.price}</span>
+        `;
+        list.appendChild(el);
+      });
+    }
+
+    function submitNewTask(e) {
+      e.preventDefault();
+      const newTask = {
+        id: Date.now(),
+        title: document.getElementById('new_title').value,
+        desc: document.getElementById('new_desc').value,
+        location: document.getElementById('new_location').value,
+        date: document.getElementById('new_date').value,
+        time: document.getElementById('new_time').value,
+        price: document.getElementById('new_amount').value,
+        poster: "You",
+        avatar: "https://i.pravatar.cc/60?img=15",
+        acceptedBy: null,
+        status: "pending"
+      };
+
+      myPostedTasks.push(newTask);
+      tasks.unshift(newTask); // Show on available tasks too
+      renderAvailableTasks();
+      renderMyPostedTasks();
+
+      add_task.close();
+      alert("Task posted successfully!");
+      e.target.reset();
+    }
+
+    function renderMyPostedTasks() {
+      const container = document.getElementById('myPostedTasks');
+      container.innerHTML = '';
+      if (myPostedTasks.length === 0) {
+        container.innerHTML = '<div class="text-center py-6 text-gray-500 text-sm">No tasks posted yet</div>';
+        return;
+      }
+
+      myPostedTasks.forEach(task => {
+        const card = document.createElement('div');
+        card.className = `rounded-xl p-4 ${task.acceptedBy ? 'bg-green-50 border border-green-300' : 'bg-orange-50 border border-orange-300'}`;
+
+        card.innerHTML = `
+          <h4 class="font-bold text-lg">${task.title}</h4>
+          <p class="text-sm text-gray-600 mb-3">Rs. ${task.price} • ${task.location}</p>
+          ${task.acceptedBy ? `
+            <div class="flex items-center gap-3 bg-white rounded-lg p-3">
+              <img src="https://i.pravatar.cc/50?img=${task.acceptedBy.id}" class="w-10 h-10 rounded-full" />
+              <div>
+                <p class="font-semibold">${task.acceptedBy.name}</p>
+                <p class="text-xs text-gray-500">Accepted • 4.9 ★</p>
+              </div>
+            </div>
+          ` : `
+            <div class="text-orange-600 font-medium">Waiting for someone to accept...</div>
+          `}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Simulate someone accepting your task after 10 seconds (demo)
+    setTimeout(() => {
+      if (myPostedTasks.length > 0) {
+        const task = myPostedTasks[0];
+        if (!task.acceptedBy) {
+          task.acceptedBy = { id: 23, name: "Suman Gurung" };
+          renderMyPostedTasks();
+        }
+      }
+    }, 10000);
+
+    // Initial render
+    renderAvailableTasks();
+    renderMyPostedTasks();
+  </script>
+</body>
+</html>
