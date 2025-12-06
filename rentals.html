@@ -12,7 +12,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
-    <title>HelpNest • Rentals</title>
+    <title>Rentals</title>
 
     <style>
       :root {
@@ -29,7 +29,7 @@
 
       .search-container {
         position: sticky;
-        top: 64px; /* Adjust according to navbar height */
+        top: 64px; 
         background: white;
         padding: 1rem;
         border-radius: 16px;
@@ -83,13 +83,10 @@
     </style>
   </head>
   <body class="min-h-screen pb-20">
-    <!-- NAVBAR + SIDEBAR BLOCK START -->
-    <!-- Sidebar -->
     <div
       id="sidebar"
       class="fixed top-0 left-0 h-full w-64 bg-white border-r transform -translate-x-full transition-transform duration-300 z-50 shadow-lg text-gray-900"
     >
-      <!-- Close Button -->
       <div class="flex justify-end p-2">
         <button id="closeSidebar" class="btn btn-ghost btn-sm text-gray-900">
           ✕
@@ -131,13 +128,9 @@
       
     </div>
 
-    <!-- Page Wrapper for Push Effect -->
     <div id="pageWrapper" class="transition-all duration-300">
-      <!-- Navbar -->
-      <!-- Navbar -->
       <div class="navbar bg-white shadow-sm sticky top-0 z-50 px-4">
         <div class="navbar-start">
-          <!-- Hamburger -->
           <button id="toggleSidebar" class="btn btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +191,6 @@
             </div>
           </button>
 
-          <!-- Profile link -->
           <a href="dashboard.html" class="btn btn-ghost btn-circle avatar">
             <div class="w-8 rounded-full">
               <img src="https://i.pravatar.cc/150?img=12" alt="Profile" />
@@ -207,26 +199,22 @@
         </div>
       </div>
 
-      <!-- JS for sidebar toggle -->
       <script>
         const sidebar = document.getElementById("sidebar");
         const pageWrapper = document.getElementById("pageWrapper");
         const toggleBtn = document.getElementById("toggleSidebar");
         const closeBtn = document.getElementById("closeSidebar");
 
-        // Open sidebar
         toggleBtn.addEventListener("click", () => {
           sidebar.classList.remove("-translate-x-full");
-          pageWrapper.classList.add("ml-64"); // push page slightly
+          pageWrapper.classList.add("ml-64"); 
         });
 
-        // Close sidebar
         closeBtn.addEventListener("click", () => {
           sidebar.classList.add("-translate-x-full");
           pageWrapper.classList.remove("ml-64");
         });
 
-        // Optional: close on ESC key
         document.addEventListener("keydown", (e) => {
           if (e.key === "Escape") {
             sidebar.classList.add("-translate-x-full");
@@ -234,9 +222,7 @@
           }
         });
       </script>
-      <!-- NAVBAR + SIDEBAR BLOCK END -->
 
-      <!-- SEARCH BAR -->
       <div class="max-w-6xl mx-auto px-4 mt-4">
         <div
           class="search-container flex gap-3 items-center animate__animated animate__fadeIn"
@@ -253,18 +239,15 @@
         </div>
       </div>
 
-      <!-- MAIN 2-COLUMN LAYOUT -->
       <div
         class="max-w-6xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6"
       >
-        <!-- LEFT: RENTAL LISTINGS -->
         <div class="space-y-5">
           <h2 class="text-2xl font-bold text-gray-800 mb-4">
             Available Rentals Nearby
           </h2>
 
           <div id="availableTasks" class="space-y-4">
-            <!-- Rental items loaded via JS -->
           </div>
 
           <button
@@ -275,9 +258,7 @@
           </button>
         </div>
 
-        <!-- RIGHT COLUMN: My Activity -->
         <div class="space-y-6">
-          <!-- Currently Renting -->
           <div class="bg-white rounded-2xl p-5 shadow-md">
             <h3
               class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"
@@ -289,7 +270,6 @@
             </div>
           </div>
 
-          <!-- Rentals I Posted -->
           <div class="bg-white rounded-2xl p-5 shadow-md">
             <h3 class="text-xl font-bold text-gray-800 mb-4">
               Rentals I Posted
@@ -301,7 +281,6 @@
             </div>
           </div>
 
-          <!-- Rental History -->
           <div class="bg-white rounded-2xl p-5 shadow-md">
             <h3 class="text-xl font-bold text-gray-800 mb-4">Rental History</h3>
             <div id="historyList" class="space-y-3">
@@ -313,8 +292,7 @@
         </div>
       </div>
 
-      <!-- MODALS (Task Details & Add Task) -->
-      <!-- Reuse your existing modal code but just change titles to Rentals -->
+  
       <dialog id="task_modal" class="modal">
         <div class="modal-box max-w-lg rounded-2xl">
           <div class="flex justify-between items-start mb-4">
@@ -425,9 +403,7 @@
         </div>
       </dialog>
 
-      <!-- JS: Sidebar + Rentals Rendering -->
       <script>
-        // Sample Rental Data
         let tasks = [
           {
             id: 1,

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Help Nest - Landing</title>
+    <title>HelpNest</title>
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@5"
       rel="stylesheet"
@@ -12,8 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body class="relative bg-base-100">
-    <!-- NAVBAR + SIDEBAR -->
-    <!-- Sidebar -->
     <div
       id="sidebar"
       class="fixed top-0 left-0 h-full w-64 bg-base-100 border-r transform -translate-x-full transition-transform duration-300 z-50"
@@ -27,16 +25,13 @@
       </ul>
     </div>
 
-    <!-- Overlay -->
     <div
       id="overlay"
       class="fixed inset-0 bg-black bg-opacity-25 hidden z-40"
     ></div>
 
-    <!-- Navbar -->
     <div class="navbar bg-base-100 shadow-sm sticky top-0 z-30 px-4">
       <div class="navbar-start">
-        <!-- Hamburger -->
         <button id="toggleSidebar" class="btn btn-ghost btn-circle">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +92,6 @@
           </div>
         </button>
 
-        <!-- Profile link -->
         <a href="profile.html" class="btn btn-ghost btn-circle avatar">
           <div class="w-8 rounded-full">
             <img src="https://i.pravatar.cc/150?img=12" alt="Profile" />
@@ -106,7 +100,6 @@
       </div>
     </div>
 
-    <!-- JS for sidebar toggle -->
     <script>
       const sidebar = document.getElementById("sidebar");
       const overlay = document.getElementById("overlay");
@@ -129,12 +122,9 @@
         }
       });
     </script>
-    <!-- END NAVBAR + SIDEBAR -->
 
-    <!-- PAGE CONTENT STARTS BELOW NAVBAR -->
 
     <div class="flex flex-col md:flex-row min-h-screen">
-      <!-- Left: Hero / Marketing Section -->
       <div
         class="md:w-1/2 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center flex items-center justify-center"
       >
@@ -157,7 +147,6 @@
         </div>
       </div>
 
-      <!-- Right: Login Form -->
       <div
         id="login"
         class="md:w-1/2 flex items-center justify-center bg-gray-100 p-12"
@@ -209,7 +198,6 @@
       </div>
     </div>
 
-    <!-- Optional: How It Works Section Below Hero/Login -->
     <section class="py-20 bg-base-200">
       <div class="max-w-6xl mx-auto px-6 text-center">
         <h2 class="text-4xl md:text-5xl font-bold mb-6">How It Works</h2>
@@ -281,15 +269,12 @@
             return alert("Please enter both email and password.");
             }
 
-            // Attempt to sign in with Supabase
             const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-            // If there's an error, show it
             if (error) {
             return alert("Login failed: " + error.message);
             }
 
-            // On success, redirect the user to the dashboard
             window.location.href = "dashboard.html";
         });
 
