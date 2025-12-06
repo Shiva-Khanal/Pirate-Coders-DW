@@ -172,6 +172,7 @@
                 >Email</label
               >
               <input
+                id="email"
                 type="email"
                 placeholder="you@example.com"
                 class="input input-bordered w-full"
@@ -183,6 +184,7 @@
                 >Password</label
               >
               <input
+                id="password"
                 type="password"
                 placeholder="********"
                 class="input input-bordered w-full"
@@ -190,7 +192,8 @@
               />
             </div>
             <button
-              type="submit"
+                id="loginbtn"
+              type="button"
               class="btn btn-primary w-full py-3 rounded-full text-lg font-semibold"
             >
               Login
@@ -198,7 +201,7 @@
           </form>
           <p class="mt-6 text-center text-sm text-gray-500">
             Don't have an account?
-            <a href="register.html" class="text-primary font-semibold"
+            <a href="signup.html" class="text-primary font-semibold"
               >Sign up</a
             >
           </p>
@@ -266,5 +269,30 @@
         </div>
       </div>
     </section>
+    <script type="module">
+        import { supabase } from "./supabase-init.js";
+        console.log("Supabase initialized:", supabase);
+
+        document.getElementById("loginbtn").addEventListener("click", async () => {
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value.trim();
+
+            if (!email || !password) {
+            return alert("Please enter both email and password.");
+            }
+
+            // Attempt to sign in with Supabase
+            const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+            // If there's an error, show it
+            if (error) {
+            return alert("Login failed: " + error.message);
+            }
+
+            // On success, redirect the user to the dashboard
+            window.location.href = "dashboard.html";
+        });
+
+    </script>
   </body>
 </html>
