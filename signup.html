@@ -102,27 +102,40 @@
 
       <!-- STEP 1: BASIC INFO -->
       <div id="step1" class="space-y-4">
-        <input type="text" placeholder="Full Name" class="input input-bordered w-full" />
-        <input type="tel" placeholder="Phone Number" class="input input-bordered w-full" />
+        <input id="name" type="text" placeholder="Full Name" class="input input-bordered w-full" />
+        <input id="phone_number" type="tel" placeholder="Phone Number" class="input input-bordered w-full" />
 
         <div class="flex gap-2">
           <input type="text" placeholder="Verification Code" class="input input-bordered w-full" />
           <button class="btn btn-primary btn-outline">Send Code</button>
+          
         </div>
 
-        <input type="text" placeholder="Address" class="input input-bordered w-full" />
-        <input type="email" placeholder="Email" class="input input-bordered w-full" />
+        <input id="address" type="text" placeholder="Address" class="input input-bordered w-full" />
+        <input id="email" type="email" placeholder="Email" class="input input-bordered w-full" />
+         <div class="relative">
+        <input 
+          id="password"
+          type="password" 
+          placeholder="Password" 
+          class="input input-bordered w-full"
+        />
+        <button type="button" onclick="togglePass()" 
+          class="absolute right-3 top-3 text-gray-500">
+          👁
 
+        </button>
+      </div>
         <button class="btn btn-primary w-full" onclick="goStep2()">Continue to Verification</button>
       </div>
-
+     
       <!-- STEP 2: KYC VERIFICATION -->
       <div id="step2" class="space-y-6 hidden">
 
         <!-- Personal Details -->
         <div class="space-y-3">
           <h3 class="font-bold">Confirm Personal Details</h3>
-          <input type="date" class="input input-bordered w-full" placeholder="Date of Birth" />
+          <input id="date" type="date" class="input input-bordered w-full" placeholder="Date of Birth" />
         </div>
 
         <!-- Live Camera -->
@@ -144,17 +157,142 @@
           <input type="file" accept="image/*" class="file-input file-input-bordered w-full" />
 
           <label class="font-medium">Citizenship Number</label>
-          <input type="text" placeholder="Enter Citizenship Number" class="input input-bordered w-full" />
+          <input id="citizenshipno" type="text" placeholder="Enter Citizenship Number" class="input input-bordered w-full" />
         </div>
 
-        <button class="btn btn-success w-full">Complete Registration</button>
+        <button id="register" class="btn btn-success w-full">Complete Registration</button>
         <button class="btn btn-outline w-full" onclick="goStep1()">Back</button>
       </div>
 
     </div>
   </div>
 
+  <!-- <script type="module">
+    import { supabase } from "./supabase-init.js";
+    console.log("Supabase initialized:", supabase);
+    
+    register.addEventListener("click", async e => { 
+      e.preventDefault();
+
+      // Grab the values from the input fields
+      let email = document.getElementById("email").value.trim();
+      let password = document.getElementById("password").value.trim();
+      
+      // Fields for signup
+      let name = document.getElementById("name").value.trim();
+      let phone_number = document.getElementById("phone_number").value.trim();
+      let address = document.getElementById("address").value.trim();
+      let date = document.getElementById("date").value.trim(); // Assuming this is the Date of Birth
+      let citizenshipno = document.getElementById("citizenshipno").value.trim();
+
+      if (!isSignup) {
+        // LOGIN
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) return alert("Login failed: " + error.message);
+        return (window.location.href = "dashboard.html");
+      }
+
+      // SIGNUP
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { 
+          emailRedirectTo: window.location.origin // URL to redirect after email verification
+        }
+      });
+
+      if (authError) return alert(authError.message);
+
+      let user = authData.user;
+      if (!user) {
+        alert("Unexpected signup error: user is null.");
+        return;
+      }
+
+      // Insert profile data into the "profiles" table in Supabase
+      let { error: profileError } = await supabase.from("profiles").insert({
+        user_id: user.id,
+        email: email,
+        username: name,
+        phone_number: phone_number,
+        address: address,
+        date_of_birth: date, // Store the date as date_of_birth
+        citizenship_number: citizenshipno, // You can adjust this as needed
+      });
+
+      if (profileError) return alert(profileError.message);
+
+      alert("Account created! Also, make sure to verify your email.");
+      window.location.href = "index.html"; // Redirect to the homepage after signup
+    });
+
+  </script> -->
+
+  <script type="module">
+    import { supabase } from "./supabase-init.js";
+    console.log("Supabase initialized:", supabase);
+
+    const submitBtn = document.getElementById("register");
+    const signinBtn = document.getElementById("signinBtn");
+
+    submitBtn.addEventListener("click", async () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const phone_number = document.getElementById("phone_number").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const date = document.getElementById("date").value.trim(); // Date of Birth
+      const citizenshipno = document.getElementById("citizenshipno").value.trim();
+
+      if (!email || !password || !name || !phone_number || !address || !date || !citizenshipno) {
+        alert("All fields are required.");
+        return;
+      }
+
+      try {
+        // Sign up the user
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: window.location.origin // URL to redirect after email verification
+          }
+        });
+
+        if (authError) throw new Error(authError.message);
+
+        let user = authData.user;
+        if (!user) {
+          throw new Error("Unexpected signup error: user is null.");
+        }
+
+        // Insert profile data into the 'profiles' table in Supabase
+        const { error: profileError } = await supabase.from("profiles").insert({
+          user_id: user.id,
+          email: email,
+          name: name,
+          phone: phone_number,
+          address: address,
+          dob: date,
+          citizenshipno: citizenshipno,
+        });
+
+        if (profileError) throw new Error(profileError.message);
+
+        alert("Account created! Please verify your email.");
+        window.location.href = "index.html"; // Redirect to home page after signup
+
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+  </script>
+
   <script>
+      function togglePass() {
+    let p = document.getElementById("password");
+    p.type = p.type === "password" ? "text" : "password";
+    }
     function goStep2() {
       document.getElementById("step1").classList.add("hidden");
       document.getElementById("step2").classList.remove("hidden");
