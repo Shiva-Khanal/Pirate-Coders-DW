@@ -82,28 +82,25 @@
   </style>
 </head>
 <body class="min-h-screen bg-white flex items-center justify-center p-4">
+<div class="w-full max-w-lg">
+<div class="card bg-base-100 shadow-2xl p-6 rounded-2xl space-y-6">
 
-  <div class="w-full max-w-lg">
-    <div class="card bg-base-100 shadow-2xl p-6 rounded-2xl space-y-6">
+ <div class="text-center mb-2 animate-pulse">
+   <h1 class="text-3xl font-extrabold" style="color:#FB7834">HelpNest</h1>
+   <p class="text-sm" style="color:#034561">Your Community • Your Support • Your Nest</p>
+ </div>
 
-      <div class="text-center mb-2 animate-pulse">
-          <h1 class="text-3xl font-extrabold" style="color:#FB7834">HelpNest</h1>
-          <p class="text-sm" style="color:#034561">Your Community • Your Support • Your Nest</p>
-        </div>
+ <h2 class="text-2xl font-bold text-center" style="color:#409D9B">Create Your Account</h2>
+  <p class="text-center text-sm opacity-70">Complete the steps to join securely</p>
+<ul class="steps w-full">   <li class="step step-primary" id="step1-ind">Basic Info</li>
+<li class="step" id="step2-ind">Verification</li>
+ </ul>
 
-        <h2 class="text-2xl font-bold text-center" style="color:#409D9B">Create Your Account</h2>
-      <p class="text-center text-sm opacity-70">Complete the steps to join securely</p>
+<div id="step1" class="space-y-4">
+ <input id="name" type="text" placeholder="Full Name" class="input input-bordered w-full" />
+ <input id="phone_number" type="tel" placeholder="Phone Number" class="input input-bordered w-full" />
 
-      <ul class="steps w-full">
-        <li class="step step-primary" id="step1-ind">Basic Info</li>
-        <li class="step" id="step2-ind">Verification</li>
-      </ul>
-
-      <div id="step1" class="space-y-4">
-        <input id="name" type="text" placeholder="Full Name" class="input input-bordered w-full" />
-        <input id="phone_number" type="tel" placeholder="Phone Number" class="input input-bordered w-full" />
-
-        <div class="flex gap-2">
+ <div class="flex gap-2">
           <input type="text" placeholder="Verification Code" class="input input-bordered w-full" />
           <button class="btn btn-primary btn-outline">Send Code</button>
           
@@ -185,13 +182,11 @@
       }
 
       try {
-        // Sign up the user
         const { data: authData, error: authError } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin // URL to redirect after email verification
-          }
+            emailRedirectTo: window.location.origin 
         });
 
         if (authError) throw new Error(authError.message);
@@ -201,7 +196,7 @@
           throw new Error("Unexpected signup error: user is null.");
         }
 
-        // Insert profile data into the 'profiles' table in Supabase
+        
         const { error: profileError } = await supabase.from("profiles").insert({
           user_id: user.id,
           email: email,
@@ -215,7 +210,7 @@
         if (profileError) throw new Error(profileError.message);
 
         alert("Account created! Please verify your email.");
-        window.location.href = "index.html"; // Redirect to home page after signup
+        window.location.href = "index.html";
 
       } catch (error) {
         alert(error.message);
