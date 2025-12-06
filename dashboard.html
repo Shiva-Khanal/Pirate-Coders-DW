@@ -201,15 +201,6 @@
         color: #6b0f0f;
         box-shadow: 0 14px 36px rgba(224, 36, 36, 0.06);
       }
-      .emergency-chip {
-        background: var(--danger);
-        color: white;
-        padding: 0.28rem 0.6rem;
-        border-radius: 8px;
-        font-weight: 800;
-        font-size: 0.85rem;
-      }
-
       .carousel-arrow {
         width: 44px;
         height: 44px;
@@ -433,11 +424,6 @@
                 flex-wrap: wrap;
               "
             >
-              <button class="btn btn-primary px-5 py-3 rounded-full">
-                Create listing
-              </button>
-              <button class="btn btn-ghost px-5">Quick post</button>
-              <button class="emergency-chip">EMERGENCY</button>
             </div>
             <div
               style="
@@ -1122,7 +1108,7 @@
 
 
     <script>
-      // Sidebar toggle
+      // Sidebar wala
       const sidebar = document.getElementById('sidebar');
       const pageWrapper = document.getElementById('pageWrapper');
       const mobileOverlay = document.getElementById('mobileOverlay');
@@ -1171,7 +1157,6 @@
         { title: 'Rating received', desc: '5 stars from recent tutoring session', time: '2d ago' },
       ];
 
-      // Populate full notifications list
       const notifList = document.getElementById('notifList');
       notifications.forEach(notif => {
         const li = document.createElement('li');
@@ -1184,7 +1169,6 @@
         notifList.appendChild(li);
       });
 
-      // Populate compact notifications
       const compactNotifs = document.getElementById('compactNotifs');
       notifications.slice(0, 2).forEach(notif => {
         const li = document.createElement('li');
@@ -1196,7 +1180,6 @@
         compactNotifs.appendChild(li);
       });
 
-      // Simple carousel arrows functionality (placeholder)
       const leftArrow = document.querySelector('.carousel-arrow:first-child');
       const rightArrow = document.querySelector('.carousel-arrow:last-child');
       const carousel = document.querySelector('.jobs-carousel');

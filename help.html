@@ -176,7 +176,7 @@
               </div>
             </div>
             <div class="hidden sm:block text-sm">
-              <div class="font-medium " style="color: var(--c4)">John Doe</div>
+              <div id="name" class="font-medium " style="color: var(--c4)">Loading...</div>
               <div class="text-xs" style="color: var(--muted)">
                 Member since 2023
               </div>
@@ -411,5 +411,22 @@
   };
   renderCurrentView();
 </script>
+<script type="module">
+      import { supabase } from "./supabase-init.js";
+      console.log("Supabase initialized:", supabase);
+
+      const user = (await supabase.auth.getUser()).data.user;
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_id", user.id);
+
+      if (error) console.error(error);
+      console.log(data);
+      console.log(data[0].name);
+      console.log("User ID:", user.id);
+      document.getElementById("name").textContent = data[0].name;
+  </script>
 </body>
 </html>
