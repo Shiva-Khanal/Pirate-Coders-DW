@@ -315,36 +315,26 @@
               id="modal_price"
             ></div>
           </div>
-          <div class="mt-6">
-            <h4 class="font-bold mb-3">Choose Payment Method</h4>
-            <div class="grid grid-cols-3 gap-3 mb-6">
-              <button class="btn border-2" onclick="selectPay('esewa')">
-                <span class="text-2xl">eSewa</span><br /><small>eSewa ID</small>
-              </button>
-              <button
-                class="btn border-2 border-orange-500 text-orange-600"
-                onclick="selectPay('khalti')"
-              >
-                <span class="text-2xl">Khalti</span><br /><small
-                  >Khalti ID</small
-                >
-              </button>
-              <button class="btn border-2" onclick="selectPay('cash')">
-                <span class="text-3xl">Cash</span><br /><small
-                  >On Delivery</small
-                >
-              </button>
-            </div>
-            <button
-              id="acceptBtn"
-              class="btn btn-primary btn-lg w-full"
-              disabled
-            >
-              Select a payment method to accept
-            </button>
-          </div>
+ <div class="mt-6">
+        <h4 class="font-bold mb-3">Choose Payment Method</h4>
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <button class="btn border-2" onclick="selectPay('esewa')">
+            <span class=" color-white text-2xl">eSewa</span><br>
+          </button>
+           <button class="color-white btn border-2" onclick="selectPay('cash')">
+            <span class="text-2xl">Cash</span><br>
+          </button>
+           <button class="color-white btn border-2" onclick="selectPay('bank')">
+            <span class="text-2xl">Bank</span><br>
+          </button>
         </div>
-      </dialog>
+
+        <button color="white" id="acceptBtn" class="btn btn-primary " disabled>
+          Select a payment method to accept
+        </button>
+      </div>
+    </div>
+  </dialog>
 
       <dialog id="add_task" class="modal">
         <div class="modal-box rounded-2xl max-w-md">
