@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Help Nest - Landing</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="relative bg-base-100">
+    <!-- NAVBAR + SIDEBAR -->
+    <!-- Sidebar -->
+    <div
+      id="sidebar"
+      class="fixed top-0 left-0 h-full w-64 bg-base-100 border-r transform -translate-x-full transition-transform duration-300 z-50"
+    >
+      <div class="p-4 text-xl font-bold border-b">Menu</div>
+      <ul class="menu p-4 space-y-2">
+        <li><a href="home.html" class="rounded">Homepage</a></li>
+        <li><a href="portfolio.html" class="rounded">Portfolio</a></li>
+        <li><a href="about.html" class="rounded">About</a></li>
+        <li><a href="contact.html" class="rounded">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Overlay -->
+    <div
+      id="overlay"
+      class="fixed inset-0 bg-black bg-opacity-25 hidden z-40"
+    ></div>
+
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-sm sticky top-0 z-30 px-4">
+      <div class="navbar-start">
+        <!-- Hamburger -->
+        <button id="toggleSidebar" class="btn btn-ghost btn-circle">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h7"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div class="navbar-center">
+        <a class="btn btn-ghost text-xl normal-case">HelpNest</a>
+      </div>
+
+      <div class="navbar-end space-x-2">
+        <button class="btn btn-ghost btn-circle">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </button>
+
+        <button class="btn btn-ghost btn-circle">
+          <div class="indicator">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+            <span class="badge badge-xs badge-primary indicator-item"></span>
+          </div>
+        </button>
+
+        <!-- Profile link -->
+        <a href="profile.html" class="btn btn-ghost btn-circle avatar">
+          <div class="w-8 rounded-full">
+            <img src="https://i.pravatar.cc/150?img=12" alt="Profile" />
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- JS for sidebar toggle -->
+    <script>
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const toggleBtn = document.getElementById("toggleSidebar");
+
+      toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("-translate-x-full");
+        overlay.classList.toggle("hidden");
+      });
+
+      overlay.addEventListener("click", () => {
+        sidebar.classList.add("-translate-x-full");
+        overlay.classList.add("hidden");
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          sidebar.classList.add("-translate-x-full");
+          overlay.classList.add("hidden");
+        }
+      });
+    </script>
+    <!-- END NAVBAR + SIDEBAR -->
+
+    <!-- PAGE CONTENT STARTS BELOW NAVBAR -->
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+      <!-- Left: Hero / Marketing Section -->
+      <div
+        class="md:w-1/2 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center flex items-center justify-center"
+      >
+        <div
+          class="bg-black bg-opacity-50 p-12 rounded-lg m-4 text-center text-white max-w-lg"
+        >
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">
+            Welcome to Help Nest
+          </h1>
+          <p class="text-lg md:text-xl mb-6">
+            Your trusted platform for getting tasks done, offering services, and
+            connecting with your community efficiently.
+          </p>
+          <a
+            href="#login"
+            class="btn btn-primary btn-lg px-8 py-4 rounded-full text-xl font-semibold"
+          >
+            Get Started
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Login Form -->
+      <div
+        id="login"
+        class="md:w-1/2 flex items-center justify-center bg-gray-100 p-12"
+      >
+        <div class="w-full max-w-md bg-white p-10 rounded-2xl shadow-2xl">
+          <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">
+            Login
+          </h2>
+          <form class="space-y-5">
+            <div>
+              <label class="block mb-2 font-semibold text-gray-700"
+                >Email</label
+              >
+              <input
+                type="email"
+                placeholder="you@example.com"
+                class="input input-bordered w-full"
+                required
+              />
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold text-gray-700"
+                >Password</label
+              >
+              <input
+                type="password"
+                placeholder="********"
+                class="input input-bordered w-full"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary w-full py-3 rounded-full text-lg font-semibold"
+            >
+              Login
+            </button>
+          </form>
+          <p class="mt-6 text-center text-sm text-gray-500">
+            Don't have an account?
+            <a href="register.html" class="text-primary font-semibold"
+              >Sign up</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional: How It Works Section Below Hero/Login -->
+    <section class="py-20 bg-base-200">
+      <div class="max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">How It Works</h2>
+        <p class="text-lg opacity-70 max-w-2xl mx-auto mb-16">
+          Help Nest makes it easy for anyone to get tasks done, offer services,
+          or rent out useful items in the community.
+        </p>
+        <div class="grid gap-12 md:grid-cols-3">
+          <div
+            class="card bg-white shadow-xl p-8 hover:shadow-2xl transition-all duration-300 rounded-xl"
+          >
+            <div class="flex justify-center mb-6">
+              <div
+                class="mask mask-squircle bg-primary text-primary-content w-20 h-20 flex items-center justify-center text-3xl font-bold"
+              >
+                1
+              </div>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3">Post Your Task</h3>
+            <p class="opacity-70 leading-relaxed">
+              Describe what you need—errand, service, or item rental—and post it
+              to the community.
+            </p>
+          </div>
+          <div
+            class="card bg-white shadow-xl p-8 hover:shadow-2xl transition-all duration-300 rounded-xl"
+          >
+            <div class="flex justify-center mb-6">
+              <div
+                class="mask mask-squircle bg-primary text-primary-content w-20 h-20 flex items-center justify-center text-3xl font-bold"
+              >
+                2
+              </div>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3">Someone Accepts</h3>
+            <p class="opacity-70 leading-relaxed">
+              Helpers nearby see your task and accept it, ensuring quick and
+              reliable assistance.
+            </p>
+          </div>
+          <div
+            class="card bg-white shadow-xl p-8 hover:shadow-2xl transition-all duration-300 rounded-xl"
+          >
+            <div class="flex justify-center mb-6">
+              <div
+                class="mask mask-squircle bg-primary text-primary-content w-20 h-20 flex items-center justify-center text-3xl font-bold"
+              >
+                3
+              </div>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3">Task Completed</h3>
+            <p class="opacity-70 leading-relaxed">
+              The task is completed, reviewed, and both parties benefit from a
+              trustworthy experience.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
