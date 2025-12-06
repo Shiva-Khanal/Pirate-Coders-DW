@@ -11,8 +11,8 @@
     :root {
       --primary: #00A651;
       --accent: #FF6B00;
-      --light: #F8F9FA;
       --dark: #1A1A1A;
+      --light: #F8F9FA;
     }
     body { background: #f5f5f5; font-family: 'Inter', sans-serif; }
     .task-card {
@@ -49,144 +49,263 @@
     }
     .floating-btn:hover { transform: translateY(-3px); background: #009445; }
     .tab-active { background: var(--primary) !important; color: white !important; }
+
+    @media (min-width: 1024px) {
+      #pageWrapper.sidebar-open {
+        transform: translateX(18rem);
+        transition: transform 0.28s ease;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen pb-20">
-  <div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white text-black border-r transform -translate-x-full transition-transform duration-300 z-50 shadow-lg">
-    <div class="flex justify-between items-center p-4 border-b">
-      <h2 class="text-xl font-bold text-black">Menu</h2>
-      <button id="closeSidebar" class="btn btn-ghost btn-sm text-black">X</button>
+  <aside
+    id="sidebar"
+    class="fixed inset-y-0 left-0 w-72 bg-white border-r transform -translate-x-full transition-transform duration-300 z-50"
+  >
+    <div class="flex items-center justify-between p-4 border-b">
+      <div class="text-lg font-bold" style="color: var(--c4)">HelpNest</div>
+      <button id="closeSidebar" class="btn btn-ghost btn-sm">X</button>
     </div>
-    <ul class="menu p-4 space-y-2 text-black">
-      <li><a href="#" class="rounded-lg text-black">Home</a></li>
-      <li><a href="#" class="rounded-lg text-black">My Requests</a></li>
-      <li><a href="#" class="rounded-lg text-black">Messages</a></li>
-      <li><a href="#" class="rounded-lg text-black">Profile</a></li>
-      <li><a href="#" class="rounded-lg text-black">Settings</a></li>
-    </ul>
-  </div>
+    <nav class="p-4 space-y-2 text-sm">
+      <a href="dashboard.html" class="block p-3 rounded bg-slate-50"
+        >Dashboard</a
+      >
+      <a href="help.html" class="block p-3 rounded hover:bg-slate-50">Help and Tutor</a>
+      <a href="job.html" class="block p-3 rounded hover:bg-slate-50">Jobs</a>
+      <a href="rentals.html" class="block p-3 rounded hover:bg-slate-50">Rentals</a>
+      <div class="mt-6 border-t pt-4 text-xs text-slate-500 px-500 px-3">Manage</div>
+      <a href="settings.html" class="block p-3 rounded hover:bg-slate-50"
+        >Settings</a
+      >
+      <a href="support.html" class="block p-3 rounded hover:bg-slate-50"
+        >Support</a
+      >
+    </nav>
+  </aside>
+  <div
+    id="mobileOverlay"
+    class="hidden fixed inset-0 z-40"
+    style="background: rgba(2, 6, 23, 0.45); backdrop-filter: blur(3px)"
+  ></div>
 
-  <div class="navbar bg-white shadow-md sticky top-0 z-40 text-black">
-    <div class="navbar-start">
-      <button id="toggleSidebar" class="btn btn-ghost btn-circle text-black">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-        </svg>
-      </button>
-    </div>
-    <div class="navbar-center">
-      <a class="btn btn-ghost text-2xl font-bold text-black">HelpNest</a>
-    </div>
-    <div class="navbar-end flex gap-2 pr-4">
-      <button class="btn btn-ghost btn-circle text-black">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </button>
-      <div class="avatar">
-        <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-          <img src="https://i.pravatar.cc/150?img=12" alt="Profile" />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="flex justify-center mt-4 gap-4 px-4">
-    <button onclick="switchTab('all')" class="tab-active px-6 py-3 rounded-xl font-bold">All Requests</button>
-    <button onclick="switchTab('my')" class="px-6 py-3 rounded-xl font-bold bg-gray-200">My Activity</button>
-  </div>
-  <div id="pageWrapper" class="transition-all duration-300">
-    <div id="all-requests-view" class="max-w-6xl mx-auto px-4 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div id="cards-container"></div>
-    </div>
-    <div id="my-activity-view" class="hidden max-w-4xl mx-auto px-6 mt-6 space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-lg">
-        <h3 class="text-2xl font-bold text-gray-800 mb-5">Currently Doing</h3>
-        <div id="currentTaskSection" class="text-center py-12 text-gray-500 text-lg">
-          You haven't accepted any task yet.
-        </div>
-      </div>
-      <div class="bg-white rounded-2xl p-6 shadow-lg">
-        <h3 class="text-2xl font-bold text-gray-800 mb-5">Tasks I Posted</h3>
-        <div id="myPostedTasks" class="space-y-4">
-          <div class="text-center py-8 text-gray-500">No tasks posted yet</div>
-        </div>
-      </div>
-      <div class="bg-white rounded-2xl p-6 shadow-lg">
-        <h3 class="text-2xl font-bold text-gray-800 mb-5">Completed History</h3>
-        <div id="historyList" class="space-y-4">
-          <div class="text-center py-8 text-gray-500">No completed tasks</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <input type="checkbox" id="accept-modal" class="modal-toggle" />
-  <div class="modal">
-    <div class="modal-box max-w-md">
-      <h3 class="font-bold text-xl mb-4 text-green-700">Accept Tutoring Request</h3>
-      <form id="accept-form" class="space-y-4">
-        <input type="hidden" id="accept-id" />
-        <input type="text" id="tutor-name" placeholder="Your Name" class="input input-bordered w-full" required />
-        <input type="text" id="tutor-contact" placeholder="Contact (Phone/Email)" class="input input-bordered w-full" required />
-        <input type="number" id="tutor-rate" placeholder="Rate per hour (optional)" class="input input-bordered w-full" />
-        <div class="modal-action flex gap-3">
-          <label for="accept-modal" class="btn flex-1">Cancel</label>
-          <button type="submit" class="btn btn-accent flex-1">Accept Request</button>
-        </div>
-      </form>
-    </div>
-  </div>
+  <div id="pageWrapper" class="min-h-screen transition-all duration-300">
 
-  <input type="checkbox" id="post-modal" class="modal-toggle" />
-  <div class="modal">
-    <div class="modal-box max-w-md">
-      <h3 class="font-bold text-xl mb-4 text-green-700">Post New Tutoring Request</h3>
-      <form id="post-form" class="space-y-4">
-        <input type="text" id="post-subject" placeholder="Subject / Topic" class="input input-bordered w-full" required />
-        <textarea id="post-desc" placeholder="Describe what you need help with..." class="textarea textarea-bordered w-full h-28" required></textarea>
-        <input type="text" id="post-address" placeholder="Address / Location" class="input input-bordered w-full" required />
-        <div class="grid grid-cols-2 gap-3">
-          <input type="date" id="post-date" class="input input-bordered w-full" required />
-          <input type="time" id="post-time" class="input input-bordered w-full" required />
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b">
+      <div
+        class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4"
+      >
+        <div class="flex items-center gap-3">
+          <button id="toggleSidebar" class="btn btn-ghost btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 6h16M4 12h16M4 18h7"
+              />
+            </svg>
+          </button>
+          <a class="ml-1 text-2xl font-extrabold" style="color: var(--c4)"
+            >HelpNest</a
+          >
         </div>
-        <div class="flex gap-2">
-          <button type="button" class="btn btn-outline btn-sm flex-1" onclick="selectPayment('cash')">Cash</button>
-          <button type="button" class="btn btn-outline btn-sm flex-1" onclick="selectPayment('esewa')">eSewa</button>
-          <button type="button" class="btn btn-outline btn-sm flex-1" onclick="selectPayment('khalti')">Khalti</button>
+        <div class="flex items-center gap-4">
+          <div
+            class="hidden sm:flex items-center bg-slate-50 rounded-full px-3 py-1 gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-slate-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              aria-label="Search"
+              placeholder="Search listings, tasks, services…"
+              class="bg-transparent outline-none text-sm w-56"
+            />
+          </div>
+          <div class="relative">
+            <button id="notifBtn" class="btn btn-ghost btn-circle">
+              <div class="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5"
+                  />
+                </svg>
+                <span
+                  id="notifBadge"
+                  class="badge badge-xs"
+                  style="background: var(--c3); color: white; border: 0"
+                  >3</span
+                >
+              </div>
+            </button>
+          </div>
+          <a href="profile.html" class="flex items-center gap-2">
+            <div class="avatar">
+              <div
+                class="w-10 rounded-full ring-2 ring-offset-1"
+                style="border-color: var(--c2)"
+              >
+                <img src="https://i.pravatar.cc/150?img=12" alt="Profile" />
+              </div>
+            </div>
+            <div class="hidden sm:block text-sm">
+              <div class="font-medium " style="color: var(--c4)">John Doe</div>
+              <div class="text-xs" style="color: var(--muted)">
+                Member since 2023
+              </div>
+            </div>
+          </a>
         </div>
-        <input type="number" id="post-rate" placeholder="Expected Rate (optional)" class="input input-bordered w-full" />
-        <div class="modal-action flex gap-3">
-          <label for="post-modal" class="btn flex-1">Cancel</label>
-          <button type="submit" class="btn btn-primary flex-1">Post Request</button>
-        </div>
-      </form>
-    </div>
-  </div>
+      </div>
+    </header>
 
-  <div class="floating-btn" onclick="document.getElementById('post-modal').checked=true">+</div>
+    <div class="flex justify-center mt-4 gap-4 px-4">
+      <button onclick="switchTab('all')" class="tab-active px-6 py-3 rounded-xl font-bold">All Requests</button>
+      <button onclick="switchTab('my')" class="px-6 py-3 rounded-xl font-bold bg-gray-200">My Activity</button>
+    </div>
+
+    <div id="pageWrapper" class="transition-all duration-300">
+      <div id="all-requests-view" class="max-w-6xl mx-auto px-4 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="cards-container"></div>
+      </div>
+      <div id="my-activity-view" class="hidden max-w-4xl mx-auto px-6 mt-6 space-y-6">
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+          <h3 class="text-2xl font-bold text-gray-800 mb-5">Currently Doing</h3>
+          <div id="currentTaskSection" class="text-center py-12 text-gray-500 text-lg">
+            You haven't accepted any task yet.
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+          <h3 class="text-2xl font-bold text-gray-800 mb-5">Tasks I Posted</h3>
+          <div id="myPostedTasks" class="space-y-4">
+            <div class="text-center py-8 text-gray-500">No tasks posted yet</div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-lg">
+          <h3 class="text-2xl font-bold text-gray-800 mb-5">Completed History</h3>
+          <div id="historyList" class="space-y-4">
+            <div class="text-center py-8 text-gray-500">No completed tasks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="checkbox" id="accept-modal" class="modal-toggle" />
+    <div class="modal">
+      <div class="modal-box max-w-md">
+        <h3 class="font-bold text-xl mb-4 text-green-700">Accept Tutoring Request</h3>
+        <form id="accept-form" class="space-y-4">
+          <input type="hidden" id="accept-id" />
+          <input type="text" id="tutor-name" placeholder="Your Name" class="input input-bordered w-full" required />
+          <input type="text" id="tutor-contact" placeholder="Contact (Phone/Email)" class="input input-bordered w-full" required />
+          <input type="number" id="tutor-rate" placeholder="Rate per hour (optional)" class="input input-bordered w-full" />
+          <div class="modal-action flex gap-3">
+            <label for="accept-modal" class="btn flex-1">Cancel</label>
+            <button type="submit" class="btn btn-accent flex-1">Accept Request</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <input type="checkbox" id="post-modal" class="modal-toggle" />
+    <div class="modal">
+      <div class="modal-box max-w-md">
+        <h3 class="font-bold text-xl mb-4 text-green-700">Post New Tutoring Request</h3>
+        <form id="post-form" class="space-y-4">
+          <input type="text" id="post-subject" placeholder="Subject / Topic" class="input input-bordered w-full" required />
+          <textarea id="post-desc" placeholder="Describe what you need help with..." class="textarea textarea-bordered w-full h-28" required></textarea>
+          <input type="text" id="post-address" placeholder="Address / Location" class="input input-bordered w-full" required />
+          <div class="grid grid-cols-2 gap-3">
+            <input type="date" id="post-date" class="input input-bordered w-full" required />
+            <input type="time" id="post-time" class="input input-bordered w-full" required />
+          </div>
+          <div class="flex gap-2">
+            <button type="button" class="btn btn-outline btn-sm flex-1" onclick="selectPayment('cash')">Cash</button>
+            <button type="button" class="btn btn-outline btn-sm flex-1" onclick="selectPayment('esewa')">eSewa</button>
+            <button type="button" class="btn btn-outline btn-sm flex-1" onclick="selectPayment('khalti')">Khalti</button>
+          </div>
+          <input type="number" id="post-rate" placeholder="Expected Rate (optional)" class="input input-bordered w-full" />
+          <div class="modal-action flex gap-3">
+            <label for="post-modal" class="btn flex-1">Cancel</label>
+            <button type="submit" class="btn btn-primary flex-1">Post Request</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="floating-btn" onclick="document.getElementById('post-modal').checked=true">+</div>
+
+  </div>
 
 <script>
-  const sidebar = document.getElementById("sidebar");
-  const pageWrapper = document.getElementById("pageWrapper");
-  const toggleBtn = document.getElementById("toggleSidebar");
-  const closeBtn = document.getElementById("closeSidebar");
+  const sidebar = document.getElementById('sidebar');
+  const pageWrapper = document.getElementById('pageWrapper');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  const toggleSidebar = document.getElementById('toggleSidebar');
+  const closeSidebar = document.getElementById('closeSidebar');
 
-  toggleBtn.addEventListener("click", () => { sidebar.classList.remove("-translate-x-full"); pageWrapper.classList.add("ml-64"); });
-  closeBtn.addEventListener("click", () => { sidebar.classList.add("-translate-x-full"); pageWrapper.classList.remove("ml-64"); });
-  document.addEventListener("keydown", (e) => { if(e.key === "Escape"){ sidebar.classList.add("-translate-x-full"); pageWrapper.classList.remove("ml-64"); }});
+  toggleSidebar.addEventListener('click', () => {
+    sidebar.classList.remove('-translate-x-full');
+    pageWrapper.classList.add('sidebar-open');
+    mobileOverlay.classList.remove('hidden');
+  });
 
- 
+  closeSidebar.addEventListener('click', () => {
+    sidebar.classList.add('-translate-x-full');
+    pageWrapper.classList.remove('sidebar-open');
+    mobileOverlay.classList.add('hidden');
+  });
+
+  mobileOverlay.addEventListener('click', () => {
+    sidebar.classList.add('-translate-x-full');
+    pageWrapper.classList.remove('sidebar-open');
+    mobileOverlay.classList.add('hidden');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      sidebar.classList.add('-translate-x-full');
+      pageWrapper.classList.remove('sidebar-open');
+      mobileOverlay.classList.add('hidden');
+    }
+  });
+
   let requests = JSON.parse(localStorage.getItem("helpnest_requests")) || [
     {id:1, subject:"Math – Grade 10", desc:"Need help with quadratic equations", address:"Koteshwor", date:"2025-12-08", time:"15:00", payment:"esewa", tutor:null, owner:false, completed:false},
     {id:2, subject:"Physics – Grade 12", desc:"Mechanics and electricity", address:"Pulchowk", date:"2025-12-09", time:"17:00", payment:"khalti", tutor:null, owner:false, completed:false},
   ];
-
   let selectedPaymentMethod = null;
   let currentView = 'all';
-
   function saveData() {
     localStorage.setItem("helpnest_requests", JSON.stringify(requests));
   }
-
   function switchTab(tab) {
     currentView = tab;
     document.querySelectorAll('#all-requests-view, #my-activity-view').forEach(v => v.classList.add('hidden'));
@@ -196,7 +315,6 @@
     else document.getElementById('my-activity-view').classList.remove('hidden');
     renderCurrentView();
   }
-
   function renderCards() {
     const container = document.getElementById("cards-container");
     container.innerHTML = requests
@@ -213,7 +331,6 @@
         </div>
       `).join('');
   }
-
   function renderCurrentView() {
     if (currentView === 'all') {
       renderCards();
@@ -229,7 +346,6 @@
           <button onclick="completeTask(${current.id})" class="btn btn-primary btn-sm mt-4">Mark as Complete</button>
         </div>
       ` : "You haven't accepted any task yet.";
-
       const myPosted = requests.filter(r => r.owner && !r.completed);
       document.getElementById("myPostedTasks").innerHTML = myPosted.length ? myPosted.map(r => `
         <div class="p-4 bg-blue-50 rounded-xl border border-blue-200">
@@ -239,7 +355,6 @@
           ${r.tutor ? `<p class="mt-2 text-green-700 font-medium">Accepted by ${r.tutor.name}</p>` : `<p class="text-orange-600">Waiting for tutor...</p>`}
         </div>
       `).join('') : `<div class="text-center py-6 text-gray-500">No tasks posted yet</div>`;
-
       const completed = requests.filter(r => r.completed);
       document.getElementById("historyList").innerHTML = completed.length ? completed.map(r => `
         <div class="p-4 bg-gray-50 rounded-xl border-l-4 border-green-600">
@@ -250,17 +365,14 @@
       `).join('') : `<div class="text-center py-6 text-gray-500">No completed tasks</div>`;
     }
   }
-
   function openAcceptModal(id) {
     document.getElementById("accept-id").value = id;
     document.getElementById("accept-modal").checked = true;
   }
-
   function completeTask(id) {
     const req = requests.find(r => r.id === id);
     if (req) { req.completed = true; saveData(); renderCurrentView(); }
   }
-
   document.getElementById("accept-form").onsubmit = function(e) {
     e.preventDefault();
     const id = Number(document.getElementById("accept-id").value);
@@ -272,12 +384,10 @@
     document.getElementById("accept-modal").checked = false;
     this.reset();
   };
-
   function selectPayment(method) {
     selectedPaymentMethod = method;
     alert("Payment method selected: " + method.toUpperCase());
   }
-
   document.getElementById("post-form").onsubmit = function(e) {
     e.preventDefault();
     const newRequest = {
@@ -299,7 +409,6 @@
     document.getElementById("post-modal").checked = false;
     this.reset();
   };
-
   renderCurrentView();
 </script>
 </body>
