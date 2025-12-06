@@ -15,7 +15,7 @@
     }
 
     body {
-      background: linear-gradient(135deg, var(--c1), var(--c3));
+      background: white
       animation: fadeIn 1s ease-in-out;
     }
 
@@ -25,7 +25,7 @@
     }
 
     .card {
-      background: white;
+      background:white;
       border-radius: 1.25rem;
       box-shadow: 0 12px 30px rgba(0,0,0,0.12);
       animation: floatUp 0.6s ease;
@@ -66,7 +66,7 @@
 
     .input, .file-input {
       border-radius: 0.75rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 6px rgba(231, 228, 228, 0.06);
       border-color: var(--c3);
       transition: 0.2s;
     }
@@ -94,13 +94,11 @@
         <h2 class="text-2xl font-bold text-center" style="color:#409D9B">Create Your Account</h2>
       <p class="text-center text-sm opacity-70">Complete the steps to join securely</p>
 
-      <!-- PROGRESS STEPS -->
       <ul class="steps w-full">
         <li class="step step-primary" id="step1-ind">Basic Info</li>
         <li class="step" id="step2-ind">Verification</li>
       </ul>
 
-      <!-- STEP 1: BASIC INFO -->
       <div id="step1" class="space-y-4">
         <input id="name" type="text" placeholder="Full Name" class="input input-bordered w-full" />
         <input id="phone_number" type="tel" placeholder="Phone Number" class="input input-bordered w-full" />
@@ -129,16 +127,13 @@
         <button class="btn btn-primary w-full" onclick="goStep2()">Continue to Verification</button>
       </div>
      
-      <!-- STEP 2: KYC VERIFICATION -->
       <div id="step2" class="space-y-6 hidden">
 
-        <!-- Personal Details -->
         <div class="space-y-3">
           <h3 class="font-bold">Confirm Personal Details</h3>
           <input id="date" type="date" class="input input-bordered w-full" placeholder="Date of Birth" />
         </div>
 
-        <!-- Live Camera -->
         <div class="space-y-3">
           <h3 class="font-bold">Live Face Verification</h3>
           <video id="camera" autoplay playsinline class="w-full rounded-lg border"></video>
@@ -146,7 +141,6 @@
           <canvas id="snapshot" class="hidden"></canvas>
         </div>
 
-        <!-- Citizenship Upload -->
         <div class="space-y-3">
           <h3 class="font-bold">Upload Citizenship</h3>
 
@@ -167,66 +161,7 @@
     </div>
   </div>
 
-  <!-- <script type="module">
-    import { supabase } from "./supabase-init.js";
-    console.log("Supabase initialized:", supabase);
-    
-    register.addEventListener("click", async e => { 
-      e.preventDefault();
-
-      // Grab the values from the input fields
-      let email = document.getElementById("email").value.trim();
-      let password = document.getElementById("password").value.trim();
-      
-      // Fields for signup
-      let name = document.getElementById("name").value.trim();
-      let phone_number = document.getElementById("phone_number").value.trim();
-      let address = document.getElementById("address").value.trim();
-      let date = document.getElementById("date").value.trim(); // Assuming this is the Date of Birth
-      let citizenshipno = document.getElementById("citizenshipno").value.trim();
-
-      if (!isSignup) {
-        // LOGIN
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) return alert("Login failed: " + error.message);
-        return (window.location.href = "dashboard.html");
-      }
-
-      // SIGNUP
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { 
-          emailRedirectTo: window.location.origin // URL to redirect after email verification
-        }
-      });
-
-      if (authError) return alert(authError.message);
-
-      let user = authData.user;
-      if (!user) {
-        alert("Unexpected signup error: user is null.");
-        return;
-      }
-
-      // Insert profile data into the "profiles" table in Supabase
-      let { error: profileError } = await supabase.from("profiles").insert({
-        user_id: user.id,
-        email: email,
-        username: name,
-        phone_number: phone_number,
-        address: address,
-        date_of_birth: date, // Store the date as date_of_birth
-        citizenship_number: citizenshipno, // You can adjust this as needed
-      });
-
-      if (profileError) return alert(profileError.message);
-
-      alert("Account created! Also, make sure to verify your email.");
-      window.location.href = "index.html"; // Redirect to the homepage after signup
-    });
-
-  </script> -->
+ 
 
   <script type="module">
     import { supabase } from "./supabase-init.js";
