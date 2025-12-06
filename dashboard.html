@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelpNest Dashboard</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      :root {
+        --c1: #feeb97;
+        --c2: #4fb783;
+        --c3: #409d9b;
+        --c4: #034561;
+        --danger: #e02424;
+        --muted: #6b7280;
+        --bg-page: #e9f6f4;
+        --card-bg: #ffffff;
+        --card-alt-bg: #fbfffe;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, Arial, sans-serif;
+        background: var(--bg-page);
+        color: #042033;
+        line-height: 1.5;
+      }
+
+      h1 {
+        font-size: 2.1rem;
+        margin: 0;
+      }
+      h2 {
+        font-size: 1.125rem;
+        margin: 0;
+      }
+
+      .section-title {
+        font-weight: 700;
+        color: var(--c4);
+        font-size: 1.05rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .pro-card {
+        background: linear-gradient(180deg, var(--card-bg), var(--card-alt-bg));
+        border-radius: 14px;
+        padding: 1.25rem;
+        box-shadow: 0 18px 45px rgba(3, 69, 97, 0.06);
+        border: 1px solid rgba(3, 69, 97, 0.06);
+      }
+
+      .section-accent {
+        position: relative;
+        padding-left: 1rem;
+      }
+      .section-accent::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 6px;
+        border-radius: 4px;
+        background: linear-gradient(180deg, var(--c2), var(--c3));
+      }
+
+      .hero-card {
+        border-radius: 16px;
+        padding: 2rem;
+        background: linear-gradient(
+          135deg,
+          rgba(254, 235, 151, 0.98),
+          rgba(79, 183, 131, 0.92)
+        );
+        color: var(--c4);
+        box-shadow: 0 24px 64px rgba(3, 69, 97, 0.08);
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .hero-sub {
+        color: rgba(3, 69, 97, 0.9);
+        margin-top: 0.4rem;
+      }
+
+      .stat-card {
+        border-radius: 12px;
+        padding: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        color: var(--c4);
+      }
+      .stat-yellow {
+        background: linear-gradient(180deg, #fff6d6, var(--c1));
+        border: 1px solid rgba(0, 0, 0, 0.02);
+      }
+      .stat-green {
+        background: linear-gradient(180deg, #ebfff6, var(--c2));
+        color: #034561;
+      }
+      .stat-teal {
+        background: linear-gradient(180deg, #e8fbfa, var(--c3));
+        color: #022b2b;
+      }
+
+      .jobs-carousel {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.6rem;
+      }
+      .job-card {
+        min-width: 360px;
+        max-width: 420px;
+        scroll-snap-align: start;
+        border-radius: 14px;
+        padding: 1rem;
+        border: 1px solid rgba(3, 69, 97, 0.06);
+        background: linear-gradient(180deg, #ffffff, #fbfffe);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .job-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 30px 80px rgba(3, 69, 97, 0.12);
+      }
+      .job-image {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+      .tag-chip {
+        padding: 0.28rem 0.58rem;
+        border-radius: 999px;
+        background: rgba(3, 69, 97, 0.04);
+        color: var(--c4);
+        font-weight: 700;
+        font-size: 0.78rem;
+      }
+
+      .recent-item {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 1rem;
+        border-radius: 12px;
+        transition: background 0.12s ease;
+      }
+      .recent-item:hover {
+        background: rgba(4, 17, 36, 0.02);
+      }
+
+      .current-big {
+        padding: 1.15rem;
+        border-radius: 12px;
+        background: linear-gradient(
+          180deg,
+          rgba(79, 183, 131, 0.06),
+          rgba(64, 157, 155, 0.02)
+        );
+        border-left: 6px solid rgba(79, 183, 131, 0.9);
+      }
+
+      .timeline-item {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-start;
+        padding: 0.9rem;
+        border-radius: 10px;
+        border: 1px solid rgba(3, 69, 97, 0.04);
+        background: #fff;
+      }
+
+      .emergency-card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 235, 235, 1),
+          rgba(255, 245, 245, 1)
+        );
+        border-radius: 12px;
+        padding: 1rem;
+        border-left: 6px solid var(--danger);
+        color: #6b0f0f;
+        box-shadow: 0 14px 36px rgba(224, 36, 36, 0.06);
+      }
+      .emergency-chip {
+        background: var(--danger);
+        color: white;
+        padding: 0.28rem 0.6rem;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 0.85rem;
+      }
+
+      .carousel-arrow {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 18px rgba(3, 69, 97, 0.06);
+        background: white;
+        border: 1px solid rgba(3, 69, 97, 0.04);
+        cursor: pointer;
+      }
+
+      @media (min-width: 1024px) {
+        #pageWrapper.sidebar-open {
+          transform: translateX(18rem);
+          transition: transform 0.28s ease;
+        }
+      }
+
+      button:focus,
+      a:focus,
+      input:focus {
+        outline: 3px solid rgba(3, 69, 97, 0.1);
+        outline-offset: 2px;
+      }
+
+      .community-stat-card {
+        border-radius: 12px;
+        padding: 1rem;
+        background: linear-gradient(180deg, #ffffff, #f8fcfb);
+        border: 1px solid rgba(3, 69, 97, 0.04);
+      }
+
+      .message-preview {
+        display: flex;
+        gap: 1rem;
+        padding: 0.8rem;
+        border-radius: 10px;
+        transition: background 0.1s;
+      }
+      .message-preview:hover {
+        background: rgba(3, 69, 97, 0.02);
+      }
+
+      .leaderboard-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.8rem;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <aside
+      id="sidebar"
+      class="fixed inset-y-0 left-0 w-72 bg-white border-r transform -translate-x-full transition-transform duration-300 z-50"
+    >
+      <div class="flex items-center justify-between p-4 border-b">
+        <div class="text-lg font-bold" style="color: var(--c4)">HelpNest</div>
+        <button id="closeSidebar" class="btn btn-ghost btn-sm">✕</button>
+      </div>
+      <nav class="p-4 space-y-2 text-sm">
+        <a href="dashboard.html" class="block p-3 rounded bg-slate-50"
+          >Dashboard</a
+        >
+        <a href="help.html" class="block p-3 rounded hover:bg-slate-50">Help and Tutor</a>
+        <a href="job.html" class="block p-3 rounded hover:bg-slate-50">Jobs</a>
+
+        <a href="rentals.html" class="block p-3 rounded hover:bg-slate-50">Rentals</a>
+        <div class="mt-6 border-t pt-4 text-xs text-slate-500 px-3">Manage</div>
+        <a href="settings.html" class="block p-3 rounded hover:bg-slate-50"
+          >Settings</a
+        >
+        <a href="support.html" class="block p-3 rounded hover:bg-slate-50"
+          >Support</a
+        >
+      </nav>
+    </aside>
+
+    <div
+      id="mobileOverlay"
+      class="hidden fixed inset-0 z-40"
+      style="background: rgba(2, 6, 23, 0.45); backdrop-filter: blur(3px)"
+    ></div>
+
+    <div id="pageWrapper" class="min-h-screen transition-all duration-300">
+      <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b">
+        <div
+          class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4"
+        >
+          <div class="flex items-center gap-3">
+            <button id="toggleSidebar" class="btn btn-ghost btn-circle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h7"
+                />
+              </svg>
+            </button>
+            <a class="ml-1 text-2xl font-extrabold" style="color: var(--c4)"
+              >HelpNest</a
+            >
+          </div>
+
+          <div class="flex items-center gap-4">
+            <div
+              class="hidden sm:flex items-center bg-slate-50 rounded-full px-3 py-1 gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-slate-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <input
+                aria-label="Search"
+                placeholder="Search listings, tasks, services…"
+                class="bg-transparent outline-none text-sm w-56"
+              />
+            </div>
+
+            <div class="relative">
+              <button id="notifBtn" class="btn btn-ghost btn-circle">
+                <div class="indicator">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5"
+                    />
+                  </svg>
+                  <span
+                    id="notifBadge"
+                    class="badge badge-xs"
+                    style="background: var(--c3); color: white; border: 0"
+                    >3</span
+                  >
+                </div>
+              </button>
+
+              <div
+                id="notifDropdown"
+                class="hidden absolute right-0 mt-2 w-96 pro-card p-4 z-50"
+              >
+                <div class="flex items-center justify-between mb-3">
+                  <div class="text-lg font-semibold">Notifications</div>
+                  <div class="text-sm text-slate-500">Recent</div>
+                </div>
+                <ul
+                  id="notifList"
+                  class="space-y-2 max-h-64 overflow-auto pr-2"
+                ></ul>
+                <div class="mt-3 text-right">
+                  <a
+                    href="notifications.html"
+                    class="text-sm"
+                    style="color: var(--muted)"
+                    >View all →</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <a href="profile.html" class="flex items-center gap-2">
+              <div class="avatar">
+                <div
+                  class="w-10 rounded-full ring-2 ring-offset-1"
+                  style="border-color: var(--c2)"
+                >
+                  <img src="https://i.pravatar.cc/150?img=12" alt="Profile" />
+                </div>
+              </div>
+              <div class="hidden sm:block text-sm">
+                <div class="font-medium " style="color: var(--c4)">John Doe</div>
+                <div class="text-xs" style="color: var(--muted)">
+                  Member since 2023
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main class="max-w-7xl mx-auto px-6 py-10 space-y-8">
+        <section class="hero-card">
+          <div style="flex: 1; min-width: 0">
+            <h1>Welcome back, John 👋</h1>
+            <p class="hero-sub">
+              Your community platform for tasks, services, and rentals. Track engagement, manage activities, and connect efficiently.
+            </p>
+            <div
+              style="
+                margin-top: 18px;
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+              "
+            >
+              <button class="btn btn-primary px-5 py-3 rounded-full">
+                Create listing
+              </button>
+              <button class="btn btn-ghost px-5">Quick post</button>
+              <button class="emergency-chip">EMERGENCY</button>
+            </div>
+            <div
+              style="
+                margin-top: 18px;
+                display: flex;
+                gap: 14px;
+                flex-wrap: wrap;
+              "
+            >
+              <div class="stat-card stat-yellow">
+                <div class="value">6</div>
+                <div style="color: var(--muted); font-size: 0.9rem">
+                  Active listings
+                </div>
+              </div>
+              <div class="stat-card stat-green">
+                <div class="value">Rs. 12.4k</div>
+                <div style="color: var(--muted); font-size: 0.9rem">
+                  Earnings
+                </div>
+              </div>
+              <div class="stat-card stat-teal">
+                <div class="value">82</div>
+                <div style="color: var(--muted); font-size: 0.9rem">
+                  Tasks done
+                </div>
+              </div>
+              <div class="stat-card stat-yellow">
+                <div class="value">1.2k</div>
+                <div style="color: var(--muted); font-size: 0.9rem">
+                  Community Members
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="flex: 0 0 260px; text-align: right">
+            <img
+              src="https://media.istockphoto.com/id/1253505221/vector/stylized-volunteers-help-charity-and-sharing-hope.jpg?s=612x612&w=0&k=20&c=Fx6iI85QcfatEHM9DkKIyDF0q4SvDJtbf8Wj5lbJhPQ="
+              alt="Community helping illustration"
+              style="
+                width: 220px;
+                height: 140px;
+                object-fit: cover;
+                border-radius: 12px;
+                box-shadow: 0 12px 30px rgba(3, 69, 97, 0.08);
+              "
+            />
+          </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-6">
+            <div class="pro-card section-accent">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="section-title">Top listings</div>
+                  <div style="color: var(--muted)">
+                    Listings with images, tags and quick actions.
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button class="carousel-arrow">‹</button>
+                  <button class="carousel-arrow">›</button>
+                </div>
+              </div>
+              <div class="mt-4 jobs-carousel" tabindex="0">
+                <article class="job-card">
+                  <img
+                    class="job-image"
+                    src="https://static.homeguide.com/assets/images/content/homeguide-plumber-sink-repair-cost-plumber-fixing-kitchen-sink-pipe.jpg"
+                    alt="Plumber fixing kitchen sink"
+                  />
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      color: var(--c3);
+                      font-weight: 700;
+                    "
+                  >
+                    Plumbing • Baneshwor <span>Rs. 2,000</span>
+                  </div>
+                  <h3 style="color: var(--c4); font-weight: 700">
+                    Fix kitchen leak
+                  </h3>
+                  <p style="color: var(--muted)">
+                    Repair pipe under sink. Bring plumber’s wrench & tape. ~2
+                    hours.
+                  </p>
+                  <div class="flex gap-2">
+                    <span class="tag-chip">2 hrs</span
+                    ><span class="tag-chip">Nearby</span
+                    ><span class="tag-chip">3 apps</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      margin-top: 12px;
+                    "
+                  >
+                    <div style="font-size: 0.85rem; color: var(--muted)">
+                      Posted 3h ago
+                    </div>
+                    <div class="flex gap-2">
+                      <button class="btn btn-sm btn-outline">View</button>
+                      <button class="btn btn-sm">☆</button>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="job-card">
+                  <img
+                    class="job-image"
+                    src="https://cdn.dribbble.com/userupload/11460182/file/original-b5da30d0a64c3687a80f7e67646ff4b4.jpg?resize=752x&vertical=center"
+                    alt="Cafe logo branding"
+                  />
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      color: var(--c3);
+                      font-weight: 700;
+                    "
+                  >
+                    Design • Remote <span>Rs. 8,500</span>
+                  </div>
+                  <h3 style="color: var(--c4); font-weight: 700">
+                    Logo & branding
+                  </h3>
+                  <p style="color: var(--muted)">
+                    Brand identity for a new cafe — logo, colors, social kit.
+                  </p>
+                  <div class="flex gap-2">
+                    <span class="tag-chip">Remote</span
+                    ><span class="tag-chip">Featured</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      margin-top: 12px;
+                    "
+                  >
+                    <div style="font-size: 0.85rem; color: var(--muted)">
+                      Posted 1d ago
+                    </div>
+                    <div class="flex gap-2">
+                      <button class="btn btn-sm btn-outline">View</button
+                      ><button class="btn btn-sm">☆</button>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="job-card">
+                  <img
+                    class="job-image"
+                    src="https://onfleet.com/blog/content/images/2024/09/how-to-start-a-courier-business--1-.webp"
+                    alt="Courier delivering package"
+                  />
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      color: var(--c3);
+                      font-weight: 700;
+                    "
+                  >
+                    Delivery • Nearby <span>Rs. 600</span>
+                  </div>
+                  <h3 style="color: var(--c4); font-weight: 700">
+                    Same‑day courier
+                  </h3>
+                  <p style="color: var(--muted)">
+                    Pickup and deliver within city — ~30 min.
+                  </p>
+                  <div class="flex gap-2">
+                    <span class="tag-chip">30 min</span
+                    ><span class="tag-chip">800 m</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      margin-top: 12px;
+                    "
+                  >
+                    <div style="font-size: 0.85rem; color: var(--muted)">
+                      Posted 30m ago
+                    </div>
+                    <div class="flex gap-2">
+                      <button class="btn btn-sm btn-outline">View</button
+                      ><button class="btn btn-sm">☆</button>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="job-card">
+                  <img
+                    class="job-image"
+                    src="https://images.unsplash.com/photo-1581578017426-9b4c8d4a5e6b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1a2b3c4d"
+                    alt=""
+                  />
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      color: var(--c3);
+                      font-weight: 700;
+                    "
+                  >
+                    Tutoring • Online <span>Rs. 1,500/hr</span>
+                  </div>
+                  <h3 style="color: var(--c4); font-weight: 700">
+                    Math tutoring session
+                  </h3>
+                  <p style="color: var(--muted)">
+                    Help with algebra for high school student. 1 hour session.
+                  </p>
+                  <div class="flex gap-2">
+                    <span class="tag-chip">Online</span
+                    ><span class="tag-chip">Education</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      margin-top: 12px;
+                    "
+                  >
+                    <div style="font-size: 0.85rem; color: var(--muted)">
+                      Posted 2d ago
+                    </div>
+                    <div class="flex gap-2">
+                      <button class="btn btn-sm btn-outline">View</button
+                      ><button class="btn btn-sm">☆</button>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="pro-card section-accent">
+              <div class="section-title">Recent tasks</div>
+              <ul class="mt-3 space-y-3">
+                <li class="recent-item">
+                  <img
+                    class="w-14 h-14 rounded-full border"
+                    src="https://i.pravatar.cc/48?img=12"
+                    alt=""
+                  />
+                  <div style="flex: 1">
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <div style="font-weight: 700; font-size: 1.02rem">
+                        Pick up parcel
+                      </div>
+                      <div style="font-size: 0.85rem; color: var(--muted)">
+                        2d ago
+                      </div>
+                    </div>
+                    <div style="color: var(--muted)">
+                      Collect parcel from Baneshwor Post • Rs. 500
+                    </div>
+                    <div class="mt-3 flex gap-3">
+                      <span class="tag-chip">Delivery</span>
+                      <button class="btn btn-sm btn-ghost">View</button>
+                      <button class="btn btn-sm btn-accent">Apply</button>
+                    </div>
+                  </div>
+                </li>
+                <li class="recent-item">
+                  <img
+                    class="w-14 h-14 rounded-full border"
+                    src="https://i.pravatar.cc/48?img=7"
+                    alt=""
+                  />
+                  <div style="flex: 1">
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <div style="font-weight: 700; font-size: 1.02rem">
+                        Move furniture
+                      </div>
+                      <div style="font-size: 0.85rem; color: var(--muted)">
+                        3d ago
+                      </div>
+                    </div>
+                    <div style="color: var(--muted)">
+                      Help move sofa & table • Rs. 1,500
+                    </div>
+                    <div class="mt-3 flex gap-3">
+                      <span class="tag-chip">Heavy</span>
+                      <button class="btn btn-sm btn-ghost">View</button>
+                      <button class="btn btn-sm btn-accent">Apply</button>
+                    </div>
+                  </div>
+                </li>
+                <li class="recent-item">
+                  <img
+                    class="w-14 h-14 rounded-full border"
+                    src="https://i.pravatar.cc/48?img=15"
+                    alt=""
+                  />
+                  <div style="flex: 1">
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <div style="font-weight: 700; font-size: 1.02rem">
+                        Rent drill machine
+                      </div>
+                      <div style="font-size: 0.85rem; color: var(--muted)">
+                        4d ago
+                      </div>
+                    </div>
+                    <div style="color: var(--muted)">
+                      Rent power drill for 1 day • Rs. 300
+                    </div>
+                    <div class="mt-3 flex gap-3">
+                      <span class="tag-chip">Rental</span>
+                      <button class="btn btn-sm btn-ghost">View</button>
+                      <button class="btn btn-sm btn-accent">Rent</button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="pro-card section-accent">
+              <div class="section-title">Community Stats</div>
+              <div class="grid grid-cols-2 gap-4 mt-4">
+                <div class="community-stat-card">
+                  <div class="text-2xl font-bold">1,200</div>
+                  <div style="color: var(--muted)">Total Members</div>
+                </div>
+                <div class="community-stat-card">
+                  <div class="text-2xl font-bold">450</div>
+                  <div style="color: var(--muted)">Active Users</div>
+                </div>
+                <div class="community-stat-card">
+                  <div class="text-2xl font-bold">320</div>
+                  <div style="color: var(--muted)">Tasks Completed</div>
+                </div>
+                <div class="community-stat-card">
+                  <div class="text-2xl font-bold">85%</div>
+                  <div style="color: var(--muted)">Engagement Rate</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pro-card section-accent">
+              <div class="section-title">Messages</div>
+              <div class="space-y-2 mt-3">
+                <div class="message-preview">
+                  <img
+                    class="w-10 h-10 rounded-full"
+                    src="https://i.pravatar.cc/40?img=5"
+                    alt=""
+                  />
+                  <div style="flex: 1">
+                    <div class="flex justify-between">
+                      <div class="font-medium">Alice Smith</div>
+                      <div class="text-xs text-muted">2h ago</div>
+                    </div>
+                    <div class="text-sm text-muted">Regarding the plumbing task...</div>
+                  </div>
+                </div>
+                <div class="message-preview">
+                  <img
+                    class="w-10 h-10 rounded-full"
+                    src="https://i.pravatar.cc/40?img=8"
+                    alt=""
+                  />
+                  <div style="flex: 1">
+                    <div class="flex justify-between">
+                      <div class="font-medium">Bob Johnson</div>
+                      <div class="text-xs text-muted">1d ago</div>
+                    </div>
+                    <div class="text-sm text-muted">Thanks for the delivery!</div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-3 text-right">
+                <a href="messages.html" class="text-sm" style="color: var(--muted)">View all →</a>
+              </div>
+            </div>
+          </div>
+
+          <aside class="space-y-6">
+            <div class="pro-card section-accent">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: flex-start;
+                "
+              >
+                <div>
+                  <div class="section-title">Current job</div>
+                  <div style="color: var(--muted); font-size: 0.92rem">
+                    Active or recently applied job
+                  </div>
+                </div>
+                <div style="font-size: 0.9rem; color: var(--muted)">
+                  Status: <strong id="jobStatus">In Progress</strong>
+                </div>
+              </div>
+              <div id="currentCard" class="mt-4 current-big">
+                <div
+                  id="currentTitle"
+                  style="font-weight: 700; font-size: 1.02rem"
+                >
+                  Fix kitchen leak
+                </div>
+                <div
+                  id="currentDesc"
+                  style="color: var(--muted); margin-top: 0.4rem"
+                >
+                  Repair pipe under sink • Rs. 2,000
+                </div>
+                <div style="margin-top: 12px">
+                  <div
+                    style="
+                      width: 100%;
+                      height: 8px;
+                      background: rgba(3, 69, 97, 0.06);
+                      border-radius: 999px;
+                    "
+                  >
+                    <div
+                      id="progressFill"
+                      style="
+                        width: 50%;
+                        height: 100%;
+                        border-radius: 999px;
+                        background: linear-gradient(
+                          90deg,
+                          var(--c2),
+                          var(--c3)
+                        );
+                      "
+                    ></div>
+                  </div>
+                  <div class="mt-3 flex gap-2">
+                    <button
+                      id="completeBtn"
+                      class="btn btn-success btn-sm"
+                    >
+                      Mark complete
+                    </button>
+                    <button
+                      id="cancelBtn"
+                      class="btn btn-ghost btn-sm"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pro-card">
+              <div class="section-title">Upcoming</div>
+              <div>
+                <div class="timeline-item">
+                  <div style="min-width: 60px">
+                    <div class="tag-chip">Today</div>
+                  </div>
+                  <div style="flex: 1">
+                    <div style="font-weight: 700">Buy groceries</div>
+                    <div style="color: var(--muted); font-size: 0.9rem">
+                      10:00 AM • Rs. 300 • <span class="tag-chip">Grocery</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div style="min-width: 60px">
+                    <div class="tag-chip">Dec 1</div>
+                  </div>
+                  <div style="flex: 1">
+                    <div style="font-weight: 700">Garden cleanup</div>
+                    <div style="color: var(--muted); font-size: 0.9rem">
+                      2:00 PM • Rs. 800 • <span class="tag-chip">Outdoor</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div style="min-width: 60px">
+                    <div class="tag-chip">Dec 2</div>
+                  </div>
+                  <div style="flex: 1">
+                    <div style="font-weight: 700">Tutoring session</div>
+                    <div style="color: var(--muted); font-size: 0.9rem">
+                      4:00 PM • Rs. 1,500 • <span class="tag-chip">Education</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pro-card">
+              <div class="section-title">Notifications</div>
+              <ul id="compactNotifs" class="text-sm space-y-2"></ul>
+              <div class="mt-3 text-right">
+                <a
+                  href="notifications.html"
+                  class="text-sm"
+                  style="color: var(--muted)"
+                  >See all →</a
+                >
+              </div>
+            </div>
+
+            <div class="emergency-card">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-weight: 800; color: #7a1414">
+                  Emergency history
+                </div>
+                <div style="font-size: 0.85rem; color: #7a1414">Important</div>
+              </div>
+              <div
+                style="
+                  margin-top: 0.65rem;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 0.5rem;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.45rem;
+                    border-radius: 8px;
+                    background: rgba(224, 36, 36, 0.06);
+                    color: #7a1414;
+                  "
+                >
+                  <div>Fire reported – Block C</div>
+                  <div class="text-xs">2025-12-06</div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.45rem;
+                    border-radius: 8px;
+                    background: rgba(224, 36, 36, 0.04);
+                    color: #7a1414;
+                  "
+                >
+                  <div>Medical emergency – Baneshwor</div>
+                  <div class="text-xs">2025-12-05</div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.45rem;
+                    border-radius: 8px;
+                    background: rgba(224, 36, 36, 0.06);
+                    color: #7a1414;
+                  "
+                >
+                  <div>Flood alert – Nearby area</div>
+                  <div class="text-xs">2025-12-04</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pro-card section-accent">
+              <div class="section-title">Top Helpers</div>
+              <div class="space-y-2 mt-3">
+                <div class="leaderboard-item">
+                  <img
+                    class="w-10 h-10 rounded-full"
+                    src="https://i.pravatar.cc/40?img=3"
+                    alt=""
+                  />
+                  <div style="flex: 1">
+                    <div class="font-medium">Sarah Lee</div>
+                    <div class="text-xs text-muted">150 tasks • 4.9 ★</div>
+                  </div>
+                  <div class="text-sm font-bold">#1</div>
+                </div>
+                <div class="leaderboard-item">
+                  <img
+                    class="w-10 h-10 rounded-full"
+                    src="https://i.pravatar.cc/40?img=4"
+                    alt=""
+                  />
+                  <div style="flex: 1">
+                    <div class="font-medium">Mike Chen</div>
+                    <div class="text-xs text-muted">120 tasks • 4.8 ★</div>
+                  </div>
+                  <div class="text-sm font-bold">#2</div>
+                </div>
+                <div class="leaderboard-item">
+                  <img
+                    class="w-10 h-10 rounded-full"
+                    src="https://i.pravatar.cc/40?img=6"
+                    alt=""
+                  />
+                  <div style="flex: 1">
+                    <div class="font-medium">Emma Davis</div>
+                    <div class="text-xs text-muted">95 tasks • 4.7 ★</div>
+                  </div>
+                  <div class="text-sm font-bold">#3</div>
+                </div>
+              </div>
+              <div class="mt-3 text-right">
+                <a href="leaderboard.html" class="text-sm" style="color: var(--muted)">View full leaderboard →</a>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="footer footer-center p-4 bg-base-300 text-base-content mt-8">
+        <aside>
+          <p>Copyright © 2025 - All rights reserved by HelpNest</p>
+        </aside>
+      </footer>
+    </div>
+
+    <script>
+      // Sidebar toggle
+      const sidebar = document.getElementById('sidebar');
+      const pageWrapper = document.getElementById('pageWrapper');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const toggleSidebar = document.getElementById('toggleSidebar');
+      const closeSidebar = document.getElementById('closeSidebar');
+
+      toggleSidebar.addEventListener('click', () => {
+        sidebar.classList.remove('-translate-x-full');
+        pageWrapper.classList.add('sidebar-open');
+        mobileOverlay.classList.remove('hidden');
+      });
+
+      closeSidebar.addEventListener('click', () => {
+        sidebar.classList.add('-translate-x-full');
+        pageWrapper.classList.remove('sidebar-open');
+        mobileOverlay.classList.add('hidden');
+      });
+
+      mobileOverlay.addEventListener('click', () => {
+        sidebar.classList.add('-translate-x-full');
+        pageWrapper.classList.remove('sidebar-open');
+        mobileOverlay.classList.add('hidden');
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          sidebar.classList.add('-translate-x-full');
+          pageWrapper.classList.remove('sidebar-open');
+          mobileOverlay.classList.add('hidden');
+        }
+      });
+
+      // Notifications dropdown
+      const notifBtn = document.getElementById('notifBtn');
+      const notifDropdown = document.getElementById('notifDropdown');
+
+      notifBtn.addEventListener('click', () => {
+        notifDropdown.classList.toggle('hidden');
+      });
+
+      // Sample notifications data
+      const notifications = [
+        { title: 'New application', desc: 'Alice applied to your plumbing task', time: '1h ago' },
+        { title: 'Task completed', desc: 'Your delivery task was marked complete', time: '3h ago' },
+        { title: 'New message', desc: 'Bob sent you a message about rental', time: 'Yesterday' },
+        { title: 'Rating received', desc: '5 stars from recent tutoring session', time: '2d ago' },
+      ];
+
+      // Populate full notifications list
+      const notifList = document.getElementById('notifList');
+      notifications.forEach(notif => {
+        const li = document.createElement('li');
+        li.className = 'p-3 rounded bg-slate-50';
+        li.innerHTML = `
+          <div class="font-medium">${notif.title}</div>
+          <div class="text-sm text-muted">${notif.desc}</div>
+          <div class="text-xs text-muted mt-1">${notif.time}</div>
+        `;
+        notifList.appendChild(li);
+      });
+
+      // Populate compact notifications
+      const compactNotifs = document.getElementById('compactNotifs');
+      notifications.slice(0, 2).forEach(notif => {
+        const li = document.createElement('li');
+        li.className = 'p-2 rounded bg-slate-50';
+        li.innerHTML = `
+          <div class="font-medium">${notif.title}</div>
+          <div class="text-xs text-muted">${notif.time}</div>
+        `;
+        compactNotifs.appendChild(li);
+      });
+
+      // Simple carousel arrows functionality (placeholder)
+      const leftArrow = document.querySelector('.carousel-arrow:first-child');
+      const rightArrow = document.querySelector('.carousel-arrow:last-child');
+      const carousel = document.querySelector('.jobs-carousel');
+
+      leftArrow.addEventListener('click', () => {
+        carousel.scrollBy({ left: -380, behavior: 'smooth' });
+      });
+
+      rightArrow.addEventListener('click', () => {
+        carousel.scrollBy({ left: 380, behavior: 'smooth' });
+      });
+    </script>
+  </body>
+</html>
