@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <title>HelpNest • Rentals</title>
+
+    <style>
+      :root {
+        --primary: #00a651;
+        --accent: #ff6b00;
+        --dark: #1a1a1a;
+        --light: #f8f9fa;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #f5f5f5;
+      }
+
+      .search-container {
+        position: sticky;
+        top: 64px; /* Adjust according to navbar height */
+        background: white;
+        padding: 1rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        z-index: 40;
+        margin-bottom: 1.5rem;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 14px 20px 14px 50px;
+        border: 2px solid #e0e0e0;
+        border-radius: 16px;
+        font-size: 1.05rem;
+        background: #f9f9f9
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E")
+          no-repeat 18px center;
+        transition: all 0.3s;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background-color: white;
+        box-shadow: 0 0 0 4px rgba(0, 166, 81, 0.15);
+      }
+
+      .task-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .task-card:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 166, 81, 0.2);
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        border-radius: 12px;
+        font-weight: 600;
+        box-shadow: 0 6px 16px rgba(0, 166, 81, 0.3);
+      }
+      .btn-primary:hover {
+        background: #009445;
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen pb-20">
+    <!-- NAVBAR + SIDEBAR BLOCK START -->
+    <!-- Sidebar -->
+    <div
+      id="sidebar"
+      class="fixed top-0 left-0 h-full w-64 bg-white border-r transform -translate-x-full transition-transform duration-300 z-50 shadow-lg text-gray-900"
+    >
+      <!-- Close Button -->
+      <div class="flex justify-end p-2">
+        <button id="closeSidebar" class="btn btn-ghost btn-sm text-gray-900">
+          ✕
+        </button>
+      </div>
+
+      <div class="p-4 text-xl font-bold border-b border-gray-200">Menu</div>
+      <ul class="menu p-4 space-y-2">
+        <li>
+          <a href="dashboard.html" class="rounded text-gray-900 hover:bg-green-50"
+            >Dashboard</a
+          >
+        </li>
+        <li>
+          <a
+            href="help.html"
+            class="rounded text-gray-900 hover:bg-green-50"
+            >Help and Tutor</a
+          >
+        </li>
+        <li>
+          <a href="job.html" class="rounded text-gray-900 hover:bg-green-50"
+            >Jobs</a
+          >
+        </li>
+        <li>
+          <a href="rentals.html.html" class="rounded text-gray-900 hover:bg-green-50"
+            >Rental</a
+          >
+        </li>
+        <div class="mt-6 border-t pt-4 text-xs text-slate-500 px-3">Manage</div>
+        <a href="#" class="block p-3 rounded hover:bg-slate-50"
+          >Settings</a
+        >
+        <a href="#" class="block p-3 rounded hover:bg-slate-50"
+          >Support</a
+        >
+      </ul>
+      
+    </div>
+
+    <!-- Page Wrapper for Push Effect -->
+    <div id="pageWrapper" class="transition-all duration-300">
+      <!-- Navbar -->
+      <!-- Navbar -->
+      <div class="navbar bg-white shadow-sm sticky top-0 z-50 px-4">
+        <div class="navbar-start">
+          <!-- Hamburger -->
+          <button id="toggleSidebar" class="btn btn-ghost btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h7"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="navbar-center">
+          <a class="text-2xl font-bold text-gray-900 normal-case">HelpNest</a>
+        </div>
+
+        <div class="navbar-end space-x-2">
+          <button class="btn btn-ghost btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-gray-900"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </button>
+
+          <button class="btn btn-ghost btn-circle">
+            <div class="indicator">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-900"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              <span class="badge badge-xs badge-primary indicator-item"></span>
+            </div>
+          </button>
+
+          <!-- Profile link -->
+          <a href="profile.html" class="btn btn-ghost btn-circle avatar">
+            <div class="w-8 rounded-full">
+              <img src="https://i.pravatar.cc/150?img=12" alt="Profile" />
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- JS for sidebar toggle -->
+      <script>
+        const sidebar = document.getElementById("sidebar");
+        const pageWrapper = document.getElementById("pageWrapper");
+        const toggleBtn = document.getElementById("toggleSidebar");
+        const closeBtn = document.getElementById("closeSidebar");
+
+        // Open sidebar
+        toggleBtn.addEventListener("click", () => {
+          sidebar.classList.remove("-translate-x-full");
+          pageWrapper.classList.add("ml-64"); // push page slightly
+        });
+
+        // Close sidebar
+        closeBtn.addEventListener("click", () => {
+          sidebar.classList.add("-translate-x-full");
+          pageWrapper.classList.remove("ml-64");
+        });
+
+        // Optional: close on ESC key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            sidebar.classList.add("-translate-x-full");
+            pageWrapper.classList.remove("ml-64");
+          }
+        });
+      </script>
+      <!-- NAVBAR + SIDEBAR BLOCK END -->
+
+      <!-- SEARCH BAR -->
+      <div class="max-w-6xl mx-auto px-4 mt-4">
+        <div
+          class="search-container flex gap-3 items-center animate__animated animate__fadeIn"
+        >
+          <div class="flex-1 relative">
+            <input
+              type="text"
+              id="searchInput"
+              class="search-input"
+              placeholder="Search rentals… e.g. camera, bike, furniture"
+              onkeyup="filterTasks()"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN 2-COLUMN LAYOUT -->
+      <div
+        class="max-w-6xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6"
+      >
+        <!-- LEFT: RENTAL LISTINGS -->
+        <div class="space-y-5">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">
+            Available Rentals Nearby
+          </h2>
+
+          <div id="availableTasks" class="space-y-4">
+            <!-- Rental items loaded via JS -->
+          </div>
+
+          <button
+            class="btn btn-primary w-full h-14 text-lg font-bold shadow-lg mt-6"
+            onclick="add_task.showModal()"
+          >
+            + Post a New Rental
+          </button>
+        </div>
+
+        <!-- RIGHT COLUMN: My Activity -->
+        <div class="space-y-6">
+          <!-- Currently Renting -->
+          <div class="bg-white rounded-2xl p-5 shadow-md">
+            <h3
+              class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"
+            >
+              Currently Renting
+            </h3>
+            <div id="currentTaskSection" class="text-center py-8 text-gray-500">
+              You haven't rented anything yet.
+            </div>
+          </div>
+
+          <!-- Rentals I Posted -->
+          <div class="bg-white rounded-2xl p-5 shadow-md">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">
+              Rentals I Posted
+            </h3>
+            <div id="myPostedTasks" class="space-y-3">
+              <div class="text-center py-6 text-gray-500 text-sm">
+                No rentals posted yet
+              </div>
+            </div>
+          </div>
+
+          <!-- Rental History -->
+          <div class="bg-white rounded-2xl p-5 shadow-md">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Rental History</h3>
+            <div id="historyList" class="space-y-3">
+              <div class="text-center py-6 text-gray-500 text-sm">
+                No completed rentals
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODALS (Task Details & Add Task) -->
+      <!-- Reuse your existing modal code but just change titles to Rentals -->
+      <dialog id="task_modal" class="modal">
+        <div class="modal-box max-w-lg rounded-2xl">
+          <div class="flex justify-between items-start mb-4">
+            <h3 id="modal_title" class="text-2xl font-bold"></h3>
+            <form method="dialog">
+              <button class="btn btn-circle btn-ghost">✕</button>
+            </form>
+          </div>
+          <div class="space-y-3">
+            <p id="modal_desc" class="text-gray-600"></p>
+            <div class="flex gap-2 text-sm">
+              <strong>Location:</strong>
+              <span id="modal_location">Kathmandu</span>
+            </div>
+            <div class="flex gap-2 text-sm">
+              <strong>Date & Time:</strong> <span id="modal_time"></span>
+            </div>
+            <div
+              class="text-2xl font-bold text-green-600"
+              id="modal_price"
+            ></div>
+          </div>
+          <div class="mt-6">
+            <h4 class="font-bold mb-3">Choose Payment Method</h4>
+            <div class="grid grid-cols-3 gap-3 mb-6">
+              <button class="btn border-2" onclick="selectPay('esewa')">
+                <span class="text-2xl">eSewa</span><br /><small>eSewa ID</small>
+              </button>
+              <button
+                class="btn border-2 border-orange-500 text-orange-600"
+                onclick="selectPay('khalti')"
+              >
+                <span class="text-2xl">Khalti</span><br /><small
+                  >Khalti ID</small
+                >
+              </button>
+              <button class="btn border-2" onclick="selectPay('cash')">
+                <span class="text-3xl">Cash</span><br /><small
+                  >On Delivery</small
+                >
+              </button>
+            </div>
+            <button
+              id="acceptBtn"
+              class="btn btn-primary btn-lg w-full"
+              disabled
+            >
+              Select a payment method to accept
+            </button>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog id="add_task" class="modal">
+        <div class="modal-box rounded-2xl max-w-md">
+          <h3 class="text-2xl font-bold mb-6 text-gray-800">
+            Post a New Rental
+          </h3>
+          <form class="space-y-4" onsubmit="submitNewTask(event)">
+            <input
+              type="text"
+              id="new_title"
+              placeholder="Rental Title"
+              class="input input-bordered w-full"
+              required
+            />
+            <textarea
+              id="new_desc"
+              placeholder="Describe the item..."
+              class="textarea textarea-bordered w-full h-24"
+              required
+            ></textarea>
+            <input
+              type="text"
+              id="new_location"
+              placeholder="Location (e.g. Baneshwor)"
+              class="input input-bordered w-full"
+              required
+            />
+            <div class="grid grid-cols-2 gap-3">
+              <input
+                type="date"
+                id="new_date"
+                class="input input-bordered"
+                required
+              />
+              <input
+                type="time"
+                id="new_time"
+                class="input input-bordered"
+                required
+              />
+            </div>
+            <input
+              type="number"
+              id="new_amount"
+              placeholder="Rental Price (Rs.)"
+              class="input input-bordered w-full"
+              required
+            />
+            <button type="submit" class="btn btn-primary w-full h-12 text-lg">
+              Post Rental
+            </button>
+            <button type="button" class="btn w-full" onclick="add_task.close()">
+              Cancel
+            </button>
+          </form>
+        </div>
+      </dialog>
+
+      <!-- JS: Sidebar + Rentals Rendering -->
+      <script>
+        // Sample Rental Data
+        let tasks = [
+          {
+            id: 1,
+            title: "Rent DSLR Camera",
+            desc: "Canon EOS 200D for 2 days",
+            location: "Thamel",
+            date: "2025-12-07",
+            time: "10:00",
+            price: 1200,
+            poster: "Ramesh Karki",
+            avatar: "https://i.pravatar.cc/60?img=32",
+          },
+          {
+            id: 2,
+            title: "Rent Mountain Bike",
+            desc: "Trek MTB for weekend ride",
+            location: "Boudhanath",
+            date: "2025-12-08",
+            time: "09:00",
+            price: 800,
+            poster: "Priya Sharma",
+            avatar: "https://i.pravatar.cc/60?img=19",
+          },
+          {
+            id: 3,
+            title: "Rent Study Table",
+            desc: "Wooden study table for 1 week",
+            location: "Pulchowk",
+            date: "2025-12-06",
+            time: "12:00",
+            price: 500,
+            poster: "Arjun Thapa",
+            avatar: "https://i.pravatar.cc/60?img=47",
+          },
+        ];
+
+        let currentUserTasks = [];
+        let myPostedTasks = [];
+        let completedHistory = [];
+
+        function renderAvailableTasks() {
+          const container = document.getElementById("availableTasks");
+          container.innerHTML = "";
+          tasks.forEach((task) => {
+            const card = document.createElement("div");
+            card.className =
+              "task-card animate__animated animate__fadeInUp cursor-pointer";
+            card.onclick = () => openTaskModal(task.id);
+            card.innerHTML = `
+          <div class="p-4">
+            <div class="flex items-center gap-3 mb-3">
+              <img src="${task.avatar}" class="w-12 h-12 rounded-full ring-2 ring-green-200" />
+              <div>
+                <h4 class="font-bold">${task.poster}</h4>
+                <p class="text-xs text-gray-500">Posted 2h ago</p>
+              </div>
+            </div>
+            <h3 class="font-bold text-lg mb-1">${task.title}</h3>
+            <p class="text-sm text-gray-600 mb-3">${task.desc}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">${task.location} • ${task.date}</span>
+              <span class="text-2xl font-bold text-green-600">Rs. ${task.price}</span>
+            </div>
+          </div>
+        `;
+            container.appendChild(card);
+          });
+        }
+
+        function openTaskModal(id) {
+          const task = tasks.find((t) => t.id === id);
+          selectedTaskId = id;
+          document.getElementById("modal_title").innerText = task.title;
+          document.getElementById("modal_desc").innerText = task.desc;
+          document.getElementById("modal_location").innerText = task.location;
+          document.getElementById(
+            "modal_time"
+          ).innerText = `${task.date} at ${task.time}`;
+          document.getElementById(
+            "modal_price"
+          ).innerText = `Rs. ${task.price}`;
+          selectedPayment = null;
+          document
+            .querySelectorAll("#task_modal .btn")
+            .forEach((b) => b.classList.remove("btn-success"));
+          document.getElementById("acceptBtn").disabled = true;
+          document.getElementById("acceptBtn").innerText =
+            "Select a payment method to accept";
+          task_modal.showModal();
+        }
+
+        let selectedPayment = null;
+        let selectedTaskId = null;
+
+        function selectPay(method) {
+          selectedPayment = method;
+          document
+            .querySelectorAll("#task_modal .btn")
+            .forEach((b) => b.classList.remove("btn-success"));
+          event.target.classList.add("btn-success");
+          document.getElementById("acceptBtn").disabled = false;
+          document.getElementById(
+            "acceptBtn"
+          ).innerText = `Accept Rental • Pay via ${method.toUpperCase()}`;
+        }
+
+        document.getElementById("acceptBtn").onclick = () => {
+          if (!selectedPayment) return alert("Please select payment method");
+          const task = tasks.find((t) => t.id === selectedTaskId);
+          currentUserTasks.push({
+            ...task,
+            payment: selectedPayment,
+            acceptedAt: new Date(),
+          });
+          document.getElementById("currentTaskSection").innerHTML = `
+        <div class="bg-green-50 rounded-xl p-4 border border-green-200">
+          <div class="flex items-center gap-3 mb-3">
+            <img src="${task.avatar}" class="w-12 h-12 rounded-full" />
+            <div>
+              <h4 class="font-bold">${task.title}</h4>
+              <p class="text-sm text-gray-600">Pay via <strong>${selectedPayment.toUpperCase()}</strong></p>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-error" onclick="completeRental(${
+            task.id
+          })">Mark Completed</button>
+        </div>
+      `;
+          task_modal.close();
+          tasks = tasks.filter((t) => t.id !== selectedTaskId);
+          renderAvailableTasks();
+        };
+
+        function completeRental(id) {
+          const task = currentUserTasks.find((t) => t.id === id);
+          completedHistory.push(task);
+          currentUserTasks = currentUserTasks.filter((t) => t.id !== id);
+          document.getElementById(
+            "currentTaskSection"
+          ).innerHTML = `You haven't rented anything yet.`;
+          renderHistory();
+        }
+
+        function renderHistory() {
+          const container = document.getElementById("historyList");
+          container.innerHTML = "";
+          if (completedHistory.length === 0) {
+            container.innerHTML = `<div class="text-center py-6 text-gray-500 text-sm">No completed rentals</div>`;
+            return;
+          }
+          completedHistory.forEach((task) => {
+            const div = document.createElement("div");
+            div.className =
+              "p-3 bg-gray-50 rounded-xl flex justify-between items-center";
+            div.innerHTML = `
+          <span class="font-semibold">${task.title}</span>
+          <span class="text-green-600 font-bold">Rs. ${task.price}</span>
+        `;
+            container.appendChild(div);
+          });
+        }
+
+        function submitNewTask(e) {
+          e.preventDefault();
+          const newTask = {
+            id: Date.now(),
+            title: document.getElementById("new_title").value,
+            desc: document.getElementById("new_desc").value,
+            location: document.getElementById("new_location").value,
+            date: document.getElementById("new_date").value,
+            time: document.getElementById("new_time").value,
+            price: document.getElementById("new_amount").value,
+            poster: "You",
+            avatar: "https://i.pravatar.cc/60?img=1",
+          };
+          tasks.push(newTask);
+          renderAvailableTasks();
+          add_task.close();
+        }
+
+        function filterTasks() {
+          const query = document
+            .getElementById("searchInput")
+            .value.toLowerCase();
+          const filtered = tasks.filter(
+            (t) =>
+              t.title.toLowerCase().includes(query) ||
+              t.desc.toLowerCase().includes(query)
+          );
+          const container = document.getElementById("availableTasks");
+          container.innerHTML = "";
+          filtered.forEach((task) => {
+            const card = document.createElement("div");
+            card.className =
+              "task-card animate__animated animate__fadeInUp cursor-pointer";
+            card.onclick = () => openTaskModal(task.id);
+            card.innerHTML = `
+          <div class="p-4">
+            <div class="flex items-center gap-3 mb-3">
+              <img src="${task.avatar}" class="w-12 h-12 rounded-full ring-2 ring-green-200" />
+              <div>
+                <h4 class="font-bold">${task.poster}</h4>
+                <p class="text-xs text-gray-500">Posted 2h ago</p>
+              </div>
+            </div>
+            <h3 class="font-bold text-lg mb-1">${task.title}</h3>
+            <p class="text-sm text-gray-600 mb-3">${task.desc}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">${task.location} • ${task.date}</span>
+              <span class="text-2xl font-bold text-green-600">Rs. ${task.price}</span>
+            </div>
+          </div>
+        `;
+            container.appendChild(card);
+          });
+        }
+
+        renderAvailableTasks();
+      </script>
+    </div>
+  </body>
+</html>
