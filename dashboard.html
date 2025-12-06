@@ -408,7 +408,7 @@
                 </div>
               </div>
               <div class="hidden sm:block text-sm">
-                <div class="font-medium " style="color: var(--c4)">John Doe</div>
+                <div id="name_top" class="font-medium " style="color: var(--c4)">John Doe</div>
                 <div class="text-xs" style="color: var(--muted)">
                   Member since 2023
                 </div>
@@ -421,7 +421,7 @@
       <main class="max-w-7xl mx-auto px-6 py-10 space-y-8">
         <section class="hero-card">
           <div style="flex: 1; min-width: 0">
-            <h1>Welcome back, John 👋</h1>
+            <h1 id="name_dashboard">Welcome back, John 👋</h1>
             <p class="hero-sub">
               Your community platform for tasks, services, and rentals. Track engagement, manage activities, and connect efficiently.
             </p>
@@ -1088,6 +1088,38 @@
         </aside>
       </footer>
     </div>
+
+    <script type="module">
+      import { supabase } from "./supabase-init.js";
+      console.log("Supabase initialized:", supabase);
+
+      const user = (await supabase.auth.getUser()).data.user;
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_id", user.id);
+
+      if (error) console.error(error);
+
+      console.log(data);
+      console.log(data[0].name);
+      console.log("User ID:", user.id);
+
+      const userName = data[0].name;
+
+      function getFirstName(userName) {
+        const nameParts = userName.split(" ");
+        return nameParts[0];
+      }
+
+      const firstName = getFirstName(userName);
+
+      document.getElementById("name_top").textContent = data[0].name;
+      document.getElementById("name_dashboard").textContent = `Welcome back, ${firstName} 👋`;
+      
+    </script>
+
 
     <script>
       // Sidebar toggle
